@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calabar QuickBite - Food Delivery</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <h1>🍔 Calabar QuickBite</h1>
+        <p>Order from your favorite restaurants - Pay by Transfer</p>
+      </div>
+    </header>
+
+    <!-- Location & Search -->
+    <section class="search-section">
+      <div class="container">
+        <div class="location-input">
+          <input
+            type="text"
+            id="deliveryAddress"
+            placeholder="Enter your delivery address in Calabar..."
+          />
+          <button onclick="setLocation()">Set Location</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Restaurants -->
+    <section class="restaurants-section">
+      <div class="container">
+        <h2>Popular Restaurants in Calabar</h2>
+        <div id="restaurantsList" class="restaurants-grid">
+          <!-- Restaurants will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Cart -->
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒 <span id="cartCount">0</span>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h3>Your Order</h3>
+        <button onclick="toggleCart()">×</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <!-- Cart items will appear here -->
+      </div>
+      <div class="cart-total">Total: ₦<span id="cartTotal">0</span></div>
+      <button class="checkout-btn" onclick="showCheckout()">
+        Proceed to Checkout
+      </button>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+      <div class="modal-content">
+        <span class="close" onclick="closeCheckout()">&times;</span>
+        <h2>Complete Your Order</h2>
+        <form id="checkoutForm">
+          <input
+            type="text"
+            id="customerName"
+            placeholder="Your Full Name"
+            required
+          />
+          <input
+            type="text"
+            id="customerAddress"
+            placeholder="Delivery Address"
+            required
+          />
+          <input
+            type="tel"
+            id="customerPhone"
+            placeholder="Phone Number"
+            required
+          />
+          <input
+            type="email"
+            id="customerEmail"
+            placeholder="Email (Optional)"
+          />
+
+          <div class="order-summary">
+            <h4>Order Summary</h4>
+            <div id="orderSummary"></div>
+            <div class="total-amount">
+              Total: ₦<span id="orderTotal">0</span>
+            </div>
+          </div>
+
+          <button type="button" onclick="showBankDetails()">
+            Proceed to Payment
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bank Details Modal -->
+    <div class="modal" id="bankModal">
+      <div class="modal-content bank-details">
+        <span class="close" onclick="closeBankDetails()">&times;</span>
+        <h2>💰 Make Your Payment</h2>
+        <div class="bank-info">
+          <p>
+            <strong
+              >Please transfer the exact amount to any of these
+              accounts:</strong
+            >
+          </p>
+
+          <div class="account-option">
+            <h3>Option 1: Zenith Bank</h3>
+            <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
+            <p><strong>Account Number:</strong> 2083456719</p>
+          </div>
+
+          <div class="account-option">
+            <h3>Option 2: First Bank</h3>
+            <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
+            <p><strong>Account Number:</strong> 3056782341</p>
+          </div>
+
+          <div class="instructions">
+            <p><strong>Important Instructions:</strong></p>
+            <ul>
+              <li>
+                Transfer
+                <strong>₦<span id="paymentAmount">0</span></strong> exactly
+              </li>
+              <li>Use your <strong>Name</strong> as transfer reference</li>
+              <li>After payment, click the confirmation button below</li>
+              <li>
+                We'll SMS you when we confirm your payment and start preparing
+                your order
+              </li>
+            </ul>
+          </div>
+
+          <div class="confirmation-section">
+            <label>
+              <input type="checkbox" id="paymentConfirmed" />
+              I have made the transfer to one of the accounts above
+            </label>
+            <button onclick="submitOrder()" disabled id="confirmOrderBtn">
+              Confirm Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

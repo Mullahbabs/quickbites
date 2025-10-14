@@ -1,0 +1,56 @@
+{
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "KFC Calabar",
+      "description": "Finger lickin' good!",
+      "image": "🍗",
+      "menu": [
+        {
+          "id": 1,
+          "name": "3 Pieces Chicken Meal",
+          "description": "3 pieces chicken + fries + drink",
+          "price": 3500
+        },
+        {
+          "id": 2,
+          "name": "Zinger Burger Meal",
+          "description": "Zinger burger + fries + drink",
+          "price": 3200
+        },
+        {
+          "id": 3,
+          "name": "Chicken Bucket (8 pcs)",
+          "description": "8 pieces of original recipe chicken",
+          "price": 8500
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Domino's Pizza",
+      "description": "Pizza delivery experts",
+      "image": "🍕",
+      "menu": [
+        {
+          "id": 4,
+          "name": "Medium Pepperoni Pizza",
+          "description": "12-inch pepperoni pizza",
+          "price": 5500
+        },
+        {
+          "id": 5,
+          "name": "Large Supreme Pizza",
+          "description": "14-inch supreme pizza",
+          "price": 7500
+        },
+        {
+          "id": 6,
+          "name": "Garlic Bread",
+          "description": "8 pieces garlic bread",
+          "price": 1800
+        }
+      ]
+    }
+  ]
+}
