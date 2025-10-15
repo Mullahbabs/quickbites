@@ -631,6 +631,8 @@ function closeAllModals() {
   showNotification("Order placed successfully! We'll contact you soon.");
 }
 
+
+
 function clearCart() {
   cart = [];
   updateCartCount();
@@ -662,6 +664,19 @@ function hideOverlay() {
     document.getElementById("overlay").style.display = "none";
   }
 }
+
+function closeAllModals() {
+    document.getElementById("checkoutModal").style.display = "none";
+    document.getElementById("bankModal").style.display = "none";
+    hideOverlay();
+
+    // Also close any menu modals
+    const menuModal = document.querySelector(".menu-modal");
+    if (menuModal) {
+      menuModal.remove();
+    }
+  }
+
 function showNotification(message) {
   const notification = document.createElement("div");
   notification.style.cssText = `
