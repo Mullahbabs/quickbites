@@ -2,7 +2,7 @@
 const restaurants = [
   {
     id: 1,
-    name: "KFC Calabar",
+    name: "SFC Calabar",
     description: "Finger lickin' good!",
     image: "🍗",
     menu: [
@@ -74,7 +74,7 @@ const restaurants = [
   },
   {
     id: 4,
-    name: "Mr. Bigg's",
+    name: "Crispy Chicken",
     description: "Taste the difference",
     image: "🍔",
     menu: [
