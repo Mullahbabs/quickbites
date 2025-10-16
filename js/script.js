@@ -631,8 +631,6 @@ function closeAllModals() {
   showNotification("Order placed successfully! We'll contact you soon.");
 }
 
-
-
 function clearCart() {
   cart = [];
   updateCartCount();
@@ -666,16 +664,16 @@ function hideOverlay() {
 }
 
 function closeAllModals() {
-    document.getElementById("checkoutModal").style.display = "none";
-    document.getElementById("bankModal").style.display = "none";
-    hideOverlay();
+  document.getElementById("checkoutModal").style.display = "none";
+  document.getElementById("bankModal").style.display = "none";
+  hideOverlay();
 
-    // Also close any menu modals
-    const menuModal = document.querySelector(".menu-modal");
-    if (menuModal) {
-      menuModal.remove();
-    }
+  // Also close any menu modals
+  const menuModal = document.querySelector(".menu-modal");
+  if (menuModal) {
+    menuModal.remove();
   }
+}
 
 function showNotification(message) {
   const notification = document.createElement("div");
@@ -709,3 +707,24 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Smooth scroll for footer links
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scrolling to footer links
+    const footerLinks = document.querySelectorAll('.footer-links a[href^="#"]');
+    
+    footerLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
