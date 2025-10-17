@@ -15,6 +15,10 @@ const restaurants = [
     description: "Finger lickin' good!",
     image: "img/crispy.jpg",
     fallback: "🍗",
+    deliveryTime: "25-35min",
+    rating: "4.5",
+    featured: true,
+    category: "fastfood",
     menu: [
       {
         id: 1,
@@ -45,6 +49,10 @@ const restaurants = [
     description: "Pizza delivery experts",
     image: "img/dominos.jpg",
     fallback: "🍕",
+    deliveryTime: "35-40min",
+    rating: "4.5",
+    popular: true,
+    category: "fastfood",
     menu: [
       {
         id: 4,
@@ -75,6 +83,10 @@ const restaurants = [
     description: "Simply irresistible!",
     image: "img/chickenrepublic.jpg",
     fallback: "🍗",
+    deliveryTime: "25-35min",
+    rating: "4.5",
+    popular: true,
+    category: "fastfood",
     menu: [
       {
         id: 7,
@@ -98,6 +110,10 @@ const restaurants = [
     description: "Taste the difference",
     image: "img/crunchies.jpg",
     fallback: "🍔",
+    deliveryTime: "25-35min",
+    rating: "4.5",
+    featured: true,
+    category: "fastfood",
     menu: [
       {
         id: 9,
@@ -121,6 +137,10 @@ const restaurants = [
     description: "Delight in every bite",
     image: "img/alyce.jpg",
     fallback: "🍔",
+    deliveryTime: "25-35min",
+    rating: "4.5",
+    featured: true,
+    category: "deserts",
     menu: [
       {
         id: 10,
@@ -144,6 +164,10 @@ const restaurants = [
     description: "Finest of chops & grills",
     image: "img/8tte.jpg",
     fallback: "🍔",
+    deliveryTime: "25-35min",
+    rating: "4.5",
+    popular: true,
+    category: "deserts",
     menu: [
       {
         id: 13,
@@ -219,16 +243,30 @@ function loadRestaurants() {
 
   restaurants.forEach((restaurant) => {
     const restaurantCard = document.createElement("div");
-    restaurantCard.className = "restaurant-card";
+    restaurantCard.className = `restaurant-card ${
+      restaurant.featured ? "featured" : ""
+    } ${restaurant.popular ? "popular" : ""}`;
     restaurantCard.innerHTML = `
-            <div class="restaurant-image">
-                <img src="${restaurant.image}" alt="${restaurant.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="fallback" style="display: none;">${restaurant.fallback}</div>
+            <div class="restaurant-thumbnail">
+                <img src="${restaurant.image}" alt="${
+      restaurant.name
+    }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display: none;">${
+                  restaurant.fallback
+                }</div>
             </div>
             <div class="restaurant-info">
                 <h3>${restaurant.name}</h3>
                 <p>${restaurant.description}</p>
-                <button class="menu-btn" onclick="showMenu(${restaurant.id})">View Menu</button>
+                <div class="restaurant-meta">
+                    <span class="delivery-time">🚴 ${
+                      restaurant.deliveryTime || "25-35min"
+                    }</span>
+                    <span class="rating">⭐ ${restaurant.rating || "4.5"}</span>
+                </div>
+                <button class="menu-btn" onclick="showMenu(${
+                  restaurant.id
+                })">Order Now</button>
             </div>
         `;
     restaurantsList.appendChild(restaurantCard);
@@ -709,22 +747,22 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Smooth scroll for footer links
-document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth scrolling to footer links
-    const footerLinks = document.querySelectorAll('.footer-links a[href^="#"]');
-    
-    footerLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+document.addEventListener("DOMContentLoaded", function () {
+  // Add smooth scrolling to footer links
+  const footerLinks = document.querySelectorAll('.footer-links a[href^="#"]');
+
+  footerLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute("href");
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
+      }
     });
+  });
 });

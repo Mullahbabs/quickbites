@@ -245,10 +245,41 @@
     </section>
 
     <!-- Restaurants -->
-    <section class="restaurants-section">
+    <!-- Restaurants Section -->
+    <section class="restaurants-section" id="restaurants">
       <div class="container">
-        <h2>Popular Restaurants in Calabar</h2>
-        <div id="restaurantsList" class="restaurants-grid">
+        <h2>All Restaurants in Calabar</h2>
+        <p>Browse through our extensive list of restaurant partners</p>
+
+        <!-- Quick Stats -->
+        <div class="restaurant-stats">
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Restaurants</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Areas Covered</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">30min</span>
+            <span class="stat-label">Avg. Delivery</span>
+          </div>
+        </div>
+
+        <!-- Restaurant Filters -->
+        <div class="restaurant-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="fastfood">Fast Food</button>
+          <button class="filter-btn" data-filter="local">Local</button>
+          <button class="filter-btn" data-filter="international">
+            International
+          </button>
+          <button class="filter-btn" data-filter="desserts">Desserts</button>
+        </div>
+
+        <!-- Restaurants Grid -->
+        <div class="restaurants-grid" id="restaurantsList">
           <!-- Restaurants will be loaded here by JavaScript -->
         </div>
       </div>
