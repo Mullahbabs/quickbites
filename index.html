@@ -177,8 +177,77 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>  
 
-        <!-- Delivery Areas Showcase -->
+
+    <!-- Restaurants -->
+    <!-- Restaurants Section -->
+    <section class="restaurants-section" id="restaurants">
+      <div class="container">
+        <h2>All Restaurants in Calabar</h2>
+        <p style="text-align: center; margin: 15px">
+          Browse through our extensive list of restaurant partners
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="restaurant-stats">
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Restaurants</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Areas Covered</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">30min</span>
+            <span class="stat-label">Avg. Delivery</span>
+          </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="restaurant-controls">
+          <div class="search-box">
+            <input
+              type="text"
+              id="restaurantSearch"
+              placeholder="🔍 Search restaurants, cuisines..."
+            />
+            <button
+              style="width: 28%; height: 22%"
+              type="button"
+              onclick="clearFilters()"
+              class="clear-search"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Restaurant Filters -->
+        <div class="restaurant-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="fastfood">Fast Food</button>
+          <button class="filter-btn" data-filter="local">Local</button>
+          <button class="filter-btn" data-filter="international">
+            International
+          </button>
+          <button class="filter-btn" data-filter="desserts">Desserts</button>
+        </div>
+
+        <!-- Results Count (will be populated by JavaScript) -->
+        <div id="resultsCount" style="text-align: center; margin: 15px"></div>
+
+        <!-- Restaurants Grid -->
+        <div class="restaurants-grid" id="restaurantsList">
+          <!-- Restaurants will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+     <!-- Delivery Areas Showcase -->
+      <section class="section" id="showcase">
         <div class="delivery-showcase">
           <div class="showcase-content">
             <h3>🚗 We Deliver Across Calabar</h3>
@@ -240,47 +309,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Restaurants -->
-    <!-- Restaurants Section -->
-    <section class="restaurants-section" id="restaurants">
-      <div class="container">
-        <h2>All Restaurants in Calabar</h2>
-        <p>Browse through our extensive list of restaurant partners</p>
-
-        <!-- Quick Stats -->
-        <div class="restaurant-stats">
-          <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <span class="stat-label">Restaurants</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">15+</span>
-            <span class="stat-label">Areas Covered</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">30min</span>
-            <span class="stat-label">Avg. Delivery</span>
-          </div>
-        </div>
-
-        <!-- Restaurant Filters -->
-        <div class="restaurant-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="fastfood">Fast Food</button>
-          <button class="filter-btn" data-filter="local">Local</button>
-          <button class="filter-btn" data-filter="international">
-            International
-          </button>
-          <button class="filter-btn" data-filter="desserts">Desserts</button>
-        </div>
-
-        <!-- Restaurants Grid -->
-        <div class="restaurants-grid" id="restaurantsList">
-          <!-- Restaurants will be loaded here by JavaScript -->
         </div>
       </div>
     </section>

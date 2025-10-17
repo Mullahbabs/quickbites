@@ -53,6 +53,7 @@ const restaurants = [
     rating: "4.5",
     popular: true,
     category: "fastfood",
+    cuisine: "American",
     menu: [
       {
         id: 4,
@@ -140,7 +141,7 @@ const restaurants = [
     deliveryTime: "25-35min",
     rating: "4.5",
     featured: true,
-    category: "deserts",
+    category: "desserts",
     menu: [
       {
         id: 10,
@@ -272,6 +273,167 @@ function loadRestaurants() {
     restaurantsList.appendChild(restaurantCard);
   });
 }
+
+// Filter variables
+let currentFilter = "all";
+let currentSearch = "";
+
+// Initialize filters
+function initializeFilters() {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const searchInput = document.getElementById("restaurantSearch");
+
+  // Add click event to filter buttons
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // Remove active class from all buttons
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // Add active class to clicked button
+      this.classList.add("active");
+
+      // Set current filter
+      currentFilter = this.getAttribute("data-filter");
+
+      // Apply filters
+      applyFilters();
+    });
+  });
+
+  // Add input event to search box
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      currentSearch = this.value.toLowerCase().trim();
+      applyFilters();
+    });
+  }
+}
+
+// Apply both category filter and search filter
+function applyFilters() {
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    // Apply category filter
+    const categoryMatch =
+      currentFilter === "all" || restaurant.category === currentFilter;
+
+    // Apply search filter
+    const searchMatch =
+      !currentSearch ||
+      restaurant.name.toLowerCase().includes(currentSearch) ||
+      restaurant.description.toLowerCase().includes(currentSearch) ||
+      restaurant.cuisine.toLowerCase().includes(currentSearch);
+
+    return categoryMatch && searchMatch;
+  });
+
+  // Display filtered restaurants
+  displayFilteredRestaurants(filteredRestaurants);
+
+  // Update results count
+  updateResultsCount(filteredRestaurants.length);
+}
+
+// Display filtered restaurants
+function displayFilteredRestaurants(filteredRestaurants) {
+  const restaurantsList = document.getElementById("restaurantsList");
+
+  if (filteredRestaurants.length === 0) {
+    restaurantsList.innerHTML = `
+            <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🍕</div>
+                <h3 style="color: #666; margin-bottom: 0.5rem;">No restaurants found</h3>
+                <p style="color: #888;">Try adjusting your search or filter criteria</p>
+                <button onclick="clearFilters()" style="margin-top: 1rem; padding: 0.8rem 1.5rem; background: #ee5a24; color: white; border: none; border-radius: 25px; cursor: pointer;">
+                    Clear Filters
+                </button>
+            </div>
+        `;
+    return;
+  }
+
+  restaurantsList.innerHTML = "";
+
+  filteredRestaurants.forEach((restaurant) => {
+    const restaurantCard = document.createElement("div");
+    restaurantCard.className = `restaurant-card ${
+      restaurant.featured ? "featured" : ""
+    } ${restaurant.popular ? "popular" : ""}`;
+    restaurantCard.innerHTML = `
+            <div class="restaurant-thumbnail">
+                <img src="${restaurant.image}" alt="${restaurant.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display: none;">${restaurant.fallback}</div>
+            </div>
+            <div class="restaurant-info">
+                <h3>${restaurant.name}</h3>
+                <p>${restaurant.description}</p>
+                <div class="restaurant-meta">
+                    <span class="delivery-time">🚴 ${restaurant.deliveryTime}</span>
+                    <span class="rating">⭐ ${restaurant.rating}</span>
+                </div>
+                <div class="cuisine-badge">${restaurant.cuisine}</div>
+                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Order Now</button>
+            </div>
+        `;
+    restaurantsList.appendChild(restaurantCard);
+  });
+}
+
+// Update results count
+function updateResultsCount(count) {
+  let resultsCountElement = document.getElementById("resultsCount");
+
+  if (!resultsCountElement) {
+    resultsCountElement = document.createElement("div");
+    resultsCountElement.id = "resultsCount";
+    resultsCountElement.style.cssText =
+      "text-align: center; margin: 1rem 0; color: #666; font-weight: 600;";
+    document
+      .querySelector(".restaurants-section .container")
+      .insertBefore(
+        resultsCountElement,
+        document.getElementById("restaurantsList")
+      );
+  }
+
+  resultsCountElement.textContent = `Showing ${count} of ${restaurants.length} restaurants`;
+}
+
+// Clear all filters
+function clearFilters() {
+  // Reset filter buttons
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelector('.filter-btn[data-filter="all"]')
+    .classList.add("active");
+
+  // Reset search input
+  const searchInput = document.getElementById("restaurantSearch");
+  if (searchInput) {
+    searchInput.value = "";
+  }
+
+  // Reset filter variables
+  currentFilter = "all";
+  currentSearch = "";
+
+  // Apply filters (which will show all restaurants)
+  applyFilters();
+}
+
+// Update the loadRestaurants function to use filters
+function loadRestaurants() {
+  initializeFilters();
+  applyFilters(); // This will display all restaurants initially
+}
+
+// Update the DOMContentLoaded event listener
+document.addEventListener("DOMContentLoaded", function () {
+  loadCartFromStorage();
+  loadRestaurants(); // This now initializes filters and displays restaurants
+  updateCartCount();
+  updateCartDisplay();
+});
 
 function showMenu(restaurantId) {
   currentRestaurant = restaurants.find((r) => r.id === restaurantId);
