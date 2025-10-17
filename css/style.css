@@ -112,11 +112,12 @@ header h1 {
 .restaurant-card {
   background: white;
   border-radius: 20px;
+  height: 100%;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  text-align: center;
+  text-align: justify;
   padding: 1.5rem 1rem;
   border: 2px solid transparent;
   position: relative;
