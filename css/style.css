@@ -1588,7 +1588,7 @@ button {
 
 /* Vibrant Footer Styles */
 .vibrant-footer {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9ff3, #f368e0);
+  background: linear-gradient(135deg, #c05050, #c24d22, #77386f, #813878);
   background-size: 400% 400%;
   animation: gradientShift 8s ease infinite;
   color: white;
