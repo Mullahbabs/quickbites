@@ -53,6 +53,60 @@
       </div>
     </section>
 
+    <div class="ncontainer">
+        <div class="nexusflow-carousel">
+            <div class="nexusflow-progress"></div>
+            <div class="floating-elements" id="floatingElements"></div>
+            
+            <div class="nexusflow-slides">
+                <div class="nexusflow-slide slide-1 active">
+                    <div class="slide-content">
+                        <h2>Calabar's Favorite Food Delivery</h2>
+                        <p>From Scanobo to New-airport, we deliver the best meals from top restaurants across Calabar. No accounts needed - just order, transfer, and enjoy!</p>
+                        <button class="slide-btn">Order Now</button>
+                    </div>
+                </div>
+                
+                <div class="nexusflow-slide slide-2">
+                    <div class="slide-content">
+                      <h2>Simple & Secure Ordering</h2>
+                      <p>Browse menus, add to cart, and pay via bank transfer. No complicated sign-ups, no saved payment details. Just delicious food delivered fast!</p>
+                      <button class="slide-btn">How It Works</button>
+                    </div>
+                </div>
+                
+                <div class="nexusflow-slide slide-3">
+                    <div class="slide-content">
+                      <h2>50+ Restaurant Partners</h2>
+                      <p>From fastfoods to local favorites like Calabar Kitchen, we partner with the best eateries in town. Your favorite meals are just a click away!</p>
+                      <button class="slide-btn">Browse Restaurants</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nexusflow-controls">
+                <button class="nexusflow-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="nexusflow-indicators">
+                    <div class="nexusflow-indicator active" data-slide="0"></div>
+                    <div class="nexusflow-indicator" data-slide="1"></div>
+                    <div class="nexusflow-indicator" data-slide="2"></div>
+                </div>
+                
+                <button class="nexusflow-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <p style="margin: 2rem; background: 
+        linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3); font-size: 1.3rem; color:#fff; padding: 1rem; border-radius: 10px;">
+        Browse restaurants, Order your meal, Make a Transfer, Satisfy That craving!
+      </p>
+    </div>
+
     <!-- Vibrant Restaurants Showcase -->
     <section class="vibrant-restaurants-showcase" id="restaurants-showcase">
       <div class="container">
@@ -69,37 +123,6 @@
             From local delicacies to international favorites, discover the best
             restaurants in town
           </p>
-        </div>
-
-        <!-- Restaurant Categories Grid -->
-        <div class="categories-grid">
-          <div class="category-card" data-category="fastfood">
-            <div class="category-icon">🍔</div>
-            <h3>Fast Food</h3>
-            <p>Quick bites & comfort food</p>
-            <span class="restaurant-count">12+ Restaurants</span>
-          </div>
-
-          <div class="category-card" data-category="local">
-            <div class="category-icon">🍛</div>
-            <h3>Local Cuisine</h3>
-            <p>Authentic Calabar dishes</p>
-            <span class="restaurant-count">8+ Restaurants</span>
-          </div>
-
-          <div class="category-card" data-category="international">
-            <div class="category-icon">🍕</div>
-            <h3>International</h3>
-            <p>Global flavors</p>
-            <span class="restaurant-count">15+ Restaurants</span>
-          </div>
-
-          <div class="category-card" data-category="desserts">
-            <div class="category-icon">🍰</div>
-            <h3>Desserts & Drinks</h3>
-            <p>Sweet treats & beverages</p>
-            <span class="restaurant-count">10+ Restaurants</span>
-          </div>
         </div>
 
         <!-- Featured Restaurants -->
@@ -242,8 +265,9 @@
         <!-- Restaurants Grid -->
         <div class="restaurants-grid" id="restaurantsList">
           <!-- Restaurants will be loaded here by JavaScript -->
-        </div>
+        </div> 
       </div>
+      
     </section>
 
      <!-- Delivery Areas Showcase -->
@@ -719,6 +743,149 @@
         </div>
       </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carousel elements
+            const carousel = document.querySelector('.nexusflow-carousel');
+            const slides = document.querySelectorAll('.nexusflow-slide');
+            const indicators = document.querySelectorAll('.nexusflow-indicator');
+            const prevBtn = document.querySelector('.nexusflow-prev');
+            const nextBtn = document.querySelector('.nexusflow-next');
+            const progressBar = document.querySelector('.nexusflow-progress');
+            
+            // Carousel state
+            let currentSlide = 0;
+            let slideInterval;
+            const slideDuration = 5000; // 5 seconds per slide
+            
+            // Create floating elements
+            createFloatingElements();
+            
+            // Initialize carousel
+            startSlideShow();
+            
+            // Navigation functions
+            function goToSlide(n) {
+                // Remove active classes
+                slides.forEach(slide => {
+                    slide.classList.remove('active', 'prev', 'next');
+                });
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                });
+                
+                // Update current slide
+                currentSlide = (n + slides.length) % slides.length;
+                
+                // Add active classes
+                slides[currentSlide].classList.add('active');
+                indicators[currentSlide].classList.add('active');
+                
+                // Add directional classes for animation
+                const prevSlide = (currentSlide - 1 + slides.length) % slides.length;
+                const nextSlide = (currentSlide + 1) % slides.length;
+                
+                slides[prevSlide].classList.add('prev');
+                slides[nextSlide].classList.add('next');
+                
+                // Reset progress bar
+                resetProgressBar();
+            }
+            
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+            
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+            
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, slideDuration);
+                resetProgressBar();
+            }
+            
+            function resetSlideShow() {
+                clearInterval(slideInterval);
+                startSlideShow();
+            }
+            
+            function resetProgressBar() {
+                progressBar.style.width = '0%';
+                progressBar.style.transition = 'width 0.1s linear';
+                
+                setTimeout(() => {
+                    progressBar.style.transition = `width ${slideDuration}ms linear`;
+                    progressBar.style.width = '100%';
+                }, 50);
+            }
+            
+            // Event listeners
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetSlideShow();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetSlideShow();
+            });
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetSlideShow();
+                });
+            });
+            
+            // Create floating elements for background
+            function createFloatingElements() {
+                const container = document.getElementById('floatingElements');
+                const elementsCount = 15;
+                
+                for (let i = 0; i < elementsCount; i++) {
+                    const element = document.createElement('div');
+                    element.classList.add('floating-element');
+                    
+                    // Random properties
+                    const size = Math.random() * 30 + 10;
+                    const left = Math.random() * 100;
+                    const animationDelay = Math.random() * 15;
+                    const animationDuration = Math.random() * 10 + 15;
+                    
+                    element.style.width = `${size}px`;
+                    element.style.height = `${size}px`;
+                    element.style.left = `${left}%`;
+                    element.style.animationDelay = `${animationDelay}s`;
+                    element.style.animationDuration = `${animationDuration}s`;
+                    
+                    container.appendChild(element);
+                }
+            }
+            
+            // Pause on hover
+            carousel.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+                progressBar.style.transition = 'none';
+            });
+            
+            carousel.addEventListener('mouseleave', () => {
+                resetSlideShow();
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                    resetSlideShow();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                    resetSlideShow();
+                }
+            });
+        });
+    </script>
 
     <script src="js/script.js"></script>
   </body>

@@ -410,7 +410,7 @@ function loadRestaurants() {
                 </div>
                 <button class="menu-btn" onclick="showMenu(${
                   restaurant.id
-                })">Order Now</button>
+                })">Quick Menu</button>
             </div>
         `;
     restaurantsList.appendChild(restaurantCard);
@@ -514,7 +514,7 @@ function displayFilteredRestaurants(filteredRestaurants) {
                     <span class="rating">⭐ ${restaurant.rating}</span>
                 </div>
                 <div class="cuisine-badge">${restaurant.cuisine}</div>
-                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Order Now</button>
+                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Quick Menu</button>
             </div>
         `;
     restaurantsList.appendChild(restaurantCard);

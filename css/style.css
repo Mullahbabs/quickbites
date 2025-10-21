@@ -45,6 +45,308 @@ header h1 {
   margin-bottom: 0.5rem;
 }
 
+.ncontainer {
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: #a5b1c2;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* NexusFlow Carousel Styles */
+.nexusflow-carousel {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+}
+
+.nexusflow-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.nexusflow-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1),
+    transform 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: scale(1.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-size: cover;
+  background-position: center;
+}
+
+.nexusflow-slide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.nexusflow-slide.prev {
+  transform: translateX(-100%) scale(0.9);
+  opacity: 0;
+}
+
+.nexusflow-slide.next {
+  transform: translateX(100%) scale(0.9);
+  opacity: 0;
+}
+
+.slide-content {
+  max-width: 600px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(30px);
+  transition: transform 1s ease 0.5s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nexusflow-slide.active .slide-content {
+  transform: translateY(0);
+}
+
+.slide-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.slide-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: #e0e0e0;
+}
+
+.slide-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.slide-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+}
+
+/* Navigation Controls */
+.nexusflow-controls {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  gap: 20px;
+}
+
+.nexusflow-prev,
+.nexusflow-next {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.nexusflow-prev:hover,
+.nexusflow-next:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.nexusflow-indicators {
+  display: flex;
+  gap: 10px;
+}
+
+.nexusflow-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nexusflow-indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* Slide Backgrounds */
+.slide-1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.slide-2 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.slide-3 {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Progress Bar */
+.nexusflow-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  width: 0%;
+  transition: width 0.1s linear;
+  z-index: 10;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nexusflow-carousel {
+    height: 400px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .slide-content {
+    padding: 25px;
+  }
+
+  .slide-content h2 {
+    font-size: 1.8rem;
+  }
+
+  .slide-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nexusflow-carousel {
+    height: 350px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .slide-content {
+    padding: 20px;
+  }
+
+  .slide-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .nexusflow-controls {
+    bottom: 15px;
+  }
+}
+
+/* Animation for indicators */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.nexusflow-indicator.active {
+  animation: pulse 2s infinite;
+}
+
+/* Floating elements animation */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-element {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 15s infinite linear;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1000%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 /* Search Section */
 .search-section {
   background: white;
@@ -1505,9 +1807,10 @@ button {
 
 .search-box {
   display: flex;
-  gap: 1rem;
-  max-width: 400px;
+  gap: 0.5rem;
+  max-width: 500px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .search-box input {
@@ -1525,6 +1828,23 @@ button {
   box-shadow: 0 0 0 3px rgba(238, 90, 36, 0.1);
 }
 
+.search-btn {
+  padding: 1rem 1.5rem;
+  background: #ee5a24;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: #ff6b6b;
+  transform: translateY(-2px);
+}
+
 .clear-search {
   padding: 1rem 1.5rem;
   background: #6c757d;
@@ -1534,10 +1854,20 @@ button {
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .clear-search:hover {
   background: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* Enter key hint */
+.search-hint {
+  text-align: center;
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 }
 
 /* Cuisine Badge */
