@@ -7,6 +7,13 @@ const DELIVERY_FEES = {
 
 const SERVICE_FEE = 300;
 
+// EmailJS Configuration
+const EMAILJS_CONFIG = {
+  SERVICE_ID: "service_1addu86",
+  TEMPLATE_ID: "template_o0c1tt5",
+  PUBLIC_KEY: "FO2RWy5Ovnsvs1Qvk",
+};
+
 // This will store our restaurants
 let restaurants = [];
 
@@ -49,6 +56,15 @@ async function loadRestaurantsFromJSON() {
         featured: true,
         category: "fastfood",
         cuisine: "American",
+        menu: [
+          {
+            id: 100,
+            name: "3 Pieces Chicken Meal",
+            description: "3 pieces chicken + fries + drink",
+            price: 3500,
+            image: "img/crispy/3piece.jpg",
+          },
+        ],
       },
       {
         id: 2,
@@ -61,6 +77,15 @@ async function loadRestaurantsFromJSON() {
         popular: true,
         category: "international",
         cuisine: "Italian",
+        menu: [
+          {
+            id: 200,
+            name: "Medium Pepperoni Pizza",
+            description: "12-inch pepperoni pizza",
+            price: 5500,
+            image: "img/dominos/mediumpeperoni.jpg",
+          },
+        ],
       },
     ];
 
@@ -79,7 +104,18 @@ document.addEventListener("DOMContentLoaded", function () {
   loadRestaurantsFromJSON();
   updateCartCount();
   updateCartDisplay();
+  initializeEmailJS();
 });
+
+// Initialize EmailJS
+function initializeEmailJS() {
+  if (typeof emailjs !== "undefined") {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    console.log("EmailJS initialized successfully");
+  } else {
+    console.error("EmailJS library not loaded");
+  }
+}
 
 // Local Storage Functions
 function saveCartToStorage() {
@@ -314,6 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadRestaurants(); // This now initializes filters and displays restaurants
   updateCartCount();
   updateCartDisplay();
+  initializeEmailJS();
 });
 
 function showMenu(restaurantId) {
@@ -341,7 +378,7 @@ function showMenu(restaurantId) {
                     <div class="item-info">
                         <h4>${item.name}</h4>
                         <p>${item.description}</p>
-                        <span class="item-price">₦${item.price}</span>
+                        <span class="item-price">₦${item.price.toLocaleString()}</span>
                     </div>
                     <button class="add-to-cart" onclick="addToCart(${
                       item.id
@@ -420,12 +457,18 @@ function updateCartDisplay() {
             <div class="item-details">
                 <h4>${item.name}</h4>
                 <p>${item.restaurant}</p>
-                <p class="item-price">₦${item.price} × ${item.quantity} = ₦${itemTotal}</p>
+                <p class="item-price">₦${item.price.toLocaleString()} × ${
+      item.quantity
+    } = ₦${itemTotal.toLocaleString()}</p>
             </div>
             <div class="cart-item-controls">
-                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                <button class="quantity-btn" onclick="updateQuantity(${
+                  item.id
+                }, -1)">-</button>
                 <span>${item.quantity}</span>
-                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                <button class="quantity-btn" onclick="updateQuantity(${
+                  item.id
+                }, 1)">+</button>
                 <button onclick="removeFromCart(${item.id})">🗑️</button>
             </div>
         `;
@@ -436,7 +479,7 @@ function updateCartDisplay() {
   const deliveryFee = selectedDeliveryArea
     ? DELIVERY_FEES[selectedDeliveryArea]
     : 0;
-  const total = subtotal;
+  const total = subtotal + deliveryFee + SERVICE_FEE;
 
   cartTotal.textContent = total.toLocaleString();
 }
@@ -532,7 +575,7 @@ function updateOrderSummary(subtotal, deliveryFee, total) {
         <div class="fee-item">
             <span>Delivery Fee ${
               selectedDeliveryArea
-                ? `(${getDeliveryArea(selectedDeliveryArea)})`
+                ? `(${getDeliveryAreaName(selectedDeliveryArea)})`
                 : "(Included in next screen)"
             }</span>
             <span>₦${deliveryFee.toLocaleString()}</span>
@@ -583,17 +626,36 @@ function updateDeliveryAreaSelection() {
   });
 }
 
+// Helper function to get delivery area display name
+function getDeliveryArea(area) {
+  const areaNames = {
+    METROPOLIS: "Metropolis Area",
+    SUB_METROPOLIS: "Sub-Metropolis Area",
+    OUTSKIRTS: "Outskirts Area",
+  };
+  return areaNames[area] || area;
+}
+
 // Updated showBankDetails function with delivery fee validation
 function showBankDetails() {
   const form = document.getElementById("checkoutForm");
-  const customerName = document.getElementById("customerName").value;
-  const customerAddress = document.getElementById("customerAddress").value;
-  const customerPhone = document.getElementById("customerPhone").value;
+  const customerName = document.getElementById("customerName").value.trim();
+  const customerAddress = document
+    .getElementById("customerAddress")
+    .value.trim();
+  const customerPhone = document.getElementById("customerPhone").value.trim();
 
   if (!customerName || !customerAddress || !customerPhone) {
     alert(
       "Please fill in all required fields: Name, Address, and Phone Number."
     );
+    return;
+  }
+
+  // Validate phone number format
+  const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+  if (!phoneRegex.test(customerPhone)) {
+    alert("Please enter a valid phone number.");
     return;
   }
 
@@ -630,10 +692,124 @@ function closeBankDetails() {
   hideOverlay();
 }
 
-function submitOrder() {
-  const customerName = document.getElementById("customerName").value;
-  const customerPhone = document.getElementById("customerPhone").value;
-  const customerAddress = document.getElementById("customerAddress").value;
+// Function to generate order number
+function generateOrderNumber() {
+  const timestamp = Date.now().toString().slice(-6);
+  const random = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
+  return `CQB${timestamp}${random}`;
+}
+
+// Function to format order items for email
+function formatOrderItemsForEmail(cart) {
+  return cart
+    .map(
+      (item) => `
+        <div class="order-item">
+            <div>
+                <strong>${item.quantity}x ${item.name}</strong>
+                ${
+                  item.restaurant
+                    ? `<br><small>Restaurant: ${item.restaurant}</small>`
+                    : ""
+                }
+            </div>
+            <div>₦${(item.price * item.quantity).toLocaleString()}</div>
+        </div>
+    `
+    )
+    .join("");
+}
+
+// Function to send order email
+async function sendOrderEmail(orderData) {
+  try {
+    console.log("Sending order email...", orderData);
+
+    // Check if EmailJS is available
+    if (typeof emailjs === "undefined") {
+      throw new Error("EmailJS library not loaded");
+    }
+
+    // Prepare email parameters
+    const templateParams = {
+      order_number: orderData.orderNumber,
+      order_time: new Date().toLocaleString("en-NG", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      customer_name: orderData.customerName,
+      customer_phone: orderData.customerPhone,
+      customer_email: orderData.customerEmail || "Not provided",
+      delivery_address: orderData.deliveryAddress,
+      delivery_area: orderData.deliveryArea,
+      order_items: orderData.orderItems,
+      subtotal: orderData.subtotal,
+      delivery_fee: orderData.deliveryFee,
+      service_fee: orderData.serviceFee,
+      total_amount: orderData.totalAmount,
+      bank_name: orderData.bankName,
+      account_name: orderData.accountName,
+      account_number: orderData.accountNumber,
+    };
+
+    console.log("EmailJS template parameters:", templateParams);
+
+    // Send email using EmailJS
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.SERVICE_ID,
+      EMAILJS_CONFIG.TEMPLATE_ID,
+      templateParams
+    );
+
+    console.log("Email sent successfully:", response);
+    return {
+      success: true,
+      message: "Order confirmation email sent successfully",
+    };
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    return {
+      success: false,
+      message: "Failed to send confirmation email: " + error.message,
+    };
+  }
+}
+
+// Enhanced submitOrder function with email integration
+async function submitOrder() {
+  const customerName = document.getElementById("customerName").value.trim();
+  const customerPhone = document.getElementById("customerPhone").value.trim();
+  const customerEmail = document.getElementById("customerEmail").value.trim();
+  const customerAddress = document
+    .getElementById("customerAddress")
+    .value.trim();
+
+  // Validate required fields
+  if (!customerName || !customerPhone || !customerAddress) {
+    alert("Please fill in all required fields: Name, Phone, and Address.");
+    return;
+  }
+
+  // Get bank details from the modal
+  const bankName =
+    document.querySelector(".bank-details .account-option h3")?.textContent ||
+    "Zenith Bank";
+  const accountName =
+    document
+      .querySelector(".bank-details .account-option p:nth-child(2)")
+      ?.textContent?.replace("Account Name:", "")
+      .trim() || "CALABAR QUICKBITE ENTERPRISES";
+  const accountNumber =
+    document
+      .querySelector(".bank-details .account-option p:nth-child(3)")
+      ?.textContent?.replace("Account Number:", "")
+      .trim() || "2083456719";
 
   // Calculate final total
   const subtotal = cart.reduce(
@@ -643,27 +819,70 @@ function submitOrder() {
   const deliveryFee = DELIVERY_FEES[selectedDeliveryArea] || 0;
   const total = subtotal + deliveryFee + SERVICE_FEE;
 
-  // Generate random order number
-  const orderNumber = "CB" + Date.now().toString().slice(-6);
+  // Generate order number
+  const orderNumber = generateOrderNumber();
 
-  // Populate success modal
-  document.getElementById("successCustomerName").textContent = customerName;
-  document.getElementById("successAddress").textContent = customerAddress;
-  document.getElementById("successPhone").textContent = customerPhone;
-  document.getElementById("successSubtotal").textContent =
-    subtotal.toLocaleString();
-  document.getElementById("successDeliveryFee").textContent =
-    deliveryFee.toLocaleString();
-  document.getElementById("successServiceFee").textContent =
-    SERVICE_FEE.toLocaleString();
-  document.getElementById("successTotal").textContent = total.toLocaleString();
-  document.getElementById("successOrderNumber").textContent = orderNumber;
+  // Generate order data
+  const orderData = {
+    orderNumber: orderNumber,
+    customerName: customerName,
+    customerPhone: customerPhone,
+    customerEmail: customerEmail || "Not provided",
+    deliveryAddress: customerAddress,
+    deliveryArea: getDeliveryAreaName(selectedDeliveryArea),
+    orderItems: formatOrderItemsForEmail(cart),
+    subtotal: `₦${subtotal.toLocaleString()}`,
+    deliveryFee: `₦${deliveryFee.toLocaleString()}`,
+    serviceFee: `₦${SERVICE_FEE.toLocaleString()}`,
+    totalAmount: `₦${total.toLocaleString()}`,
+    bankName: bankName,
+    accountName: accountName,
+    accountNumber: accountNumber,
+    cartItems: JSON.parse(JSON.stringify(cart)), // Deep copy of cart
+  };
 
-  // Populate order items
-  const successOrderItems = document.getElementById("successOrderItems");
-  successOrderItems.innerHTML = cart
-    .map(
-      (item) => `
+  // Show loading state
+  const confirmBtn = document.getElementById("confirmOrderBtn");
+  const originalText = confirmBtn.textContent;
+  confirmBtn.textContent = "Sending Order...";
+  confirmBtn.disabled = true;
+
+  try {
+    // Send email
+    const emailResult = await sendOrderEmail(orderData);
+
+    // Also save order to localStorage as backup
+    saveOrderToLocalStorage(orderData);
+
+    // Create order summary for display
+    const orderDetails = cart
+      .map(
+        (item) =>
+          `${item.quantity}x ${item.name} - ₦${(
+            item.price * item.quantity
+          ).toLocaleString()}`
+      )
+      .join("\n");
+
+    // Populate success modal
+    document.getElementById("successCustomerName").textContent = customerName;
+    document.getElementById("successAddress").textContent = customerAddress;
+    document.getElementById("successPhone").textContent = customerPhone;
+    document.getElementById("successSubtotal").textContent =
+      subtotal.toLocaleString();
+    document.getElementById("successDeliveryFee").textContent =
+      deliveryFee.toLocaleString();
+    document.getElementById("successServiceFee").textContent =
+      SERVICE_FEE.toLocaleString();
+    document.getElementById("successTotal").textContent =
+      total.toLocaleString();
+    document.getElementById("successOrderNumber").textContent = orderNumber;
+
+    // Populate order items
+    const successOrderItems = document.getElementById("successOrderItems");
+    successOrderItems.innerHTML = cart
+      .map(
+        (item) => `
         <div class="summary-item">
             <span class="item-quantity">${item.quantity}x</span>
             <span class="item-name">${item.name}</span>
@@ -672,19 +891,68 @@ function submitOrder() {
             ).toLocaleString()}</span>
         </div>
     `
-    )
-    .join("");
+      )
+      .join("");
 
-  // Show success modal
-  document.getElementById("bankModal").style.display = "none";
-  document.getElementById("successModal").style.display = "block";
+    // Show success modal
+    document.getElementById("bankModal").style.display = "none";
+    document.getElementById("successModal").style.display = "block";
 
-  // Clear cart and reset
-  clearCart();
-  document.getElementById("checkoutForm").reset();
+    // Clear cart and reset
+    clearCart();
+    document.getElementById("checkoutForm").reset();
 
-  // Reset payment confirmation
-  document.getElementById("paymentConfirmed").checked = false;
+    // Show thank you message
+    showNotification("Order placed successfully! We'll contact you soon.");
+
+    // Log email result
+    if (!emailResult.success) {
+      console.warn("Email sending failed:", emailResult.message);
+    }
+  } catch (error) {
+    console.error("Order submission error:", error);
+    alert(
+      "There was an issue submitting your order. Please try again or contact support. Error: " +
+        error.message
+    );
+  } finally {
+    // Reset button state
+    confirmBtn.textContent = originalText;
+    confirmBtn.disabled = false;
+  }
+}
+
+// Function to save order to localStorage as backup
+function saveOrderToLocalStorage(orderData) {
+  try {
+    const orders =
+      JSON.parse(localStorage.getItem("calabarQuickBiteOrders")) || [];
+    orders.push({
+      ...orderData,
+      timestamp: new Date().toISOString(),
+      status: "pending",
+    });
+
+    // Keep only last 50 orders to prevent storage overflow
+    if (orders.length > 50) {
+      orders.splice(0, orders.length - 50);
+    }
+
+    localStorage.setItem("calabarQuickBiteOrders", JSON.stringify(orders));
+    console.log("Order saved to localStorage:", orderData.orderNumber);
+  } catch (error) {
+    console.error("Failed to save order to localStorage:", error);
+  }
+}
+
+// Function to get delivery area name
+function getDeliveryAreaName(area) {
+  const names = {
+    METROPOLIS: "Metropolis Area - ₦2,500",
+    SUB_METROPOLIS: "Sub-Metropolis Area - ₦3,500",
+    OUTSKIRTS: "Outskirts Area - ₦4,500",
+  };
+  return names[area] || area;
 }
 
 function closeSuccessModal() {
@@ -692,7 +960,6 @@ function closeSuccessModal() {
   hideOverlay();
 }
 
-// Update the closeAllModals function to include success modal
 function closeAllModals() {
   document.getElementById("checkoutModal").style.display = "none";
   document.getElementById("bankModal").style.display = "none";
@@ -703,17 +970,11 @@ function closeAllModals() {
   if (menuModal) {
     menuModal.remove();
   }
-
-  // Clear cart and reset
-  clearCart();
-  document.getElementById("checkoutForm").reset();
-  closeBankDetails();
-
-  showNotification("Order placed successfully! We'll contact you soon.");
 }
 
 function clearCart() {
   cart = [];
+  selectedDeliveryArea = null;
   updateCartCount();
   updateCartDisplay();
   saveCartToStorage();
@@ -741,18 +1002,6 @@ function hideOverlay() {
 
   if (!isAnyModalOpen) {
     document.getElementById("overlay").style.display = "none";
-  }
-}
-
-function closeAllModals() {
-  document.getElementById("checkoutModal").style.display = "none";
-  document.getElementById("bankModal").style.display = "none";
-  hideOverlay();
-
-  // Also close any menu modals
-  const menuModal = document.querySelector(".menu-modal");
-  if (menuModal) {
-    menuModal.remove();
   }
 }
 
