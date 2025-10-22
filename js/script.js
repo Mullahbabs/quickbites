@@ -7,329 +7,67 @@ const DELIVERY_FEES = {
 
 const SERVICE_FEE = 300;
 
-// Sample restaurant data (in real scenario, this would be in restaurants.json)
-const restaurants = [
-  {
-    id: 1,
-    name: "Crispy Chicken",
-    description: "Finger lickin' good!",
-    image: "img/crispy.jpg",
-    fallback: "🍗",
-    deliveryTime: "25-35min",
-    rating: "4.5",
-    featured: true,
-    category: "fastfood",
-    menu: [
+// This will store our restaurants
+let restaurants = [];
+
+// This function loads restaurants from the JSON file
+async function loadRestaurantsFromJSON() {
+  try {
+    console.log("Loading restaurants from JSON file...");
+
+    // Fetch the JSON file
+    const response = await fetch("restaurants.json");
+
+    // Check if the file was found
+    if (!response.ok) {
+      throw new Error("restaurants.json file not found");
+    }
+
+    // Read the JSON data
+    const data = await response.json();
+
+    // Store the restaurants in our variable
+    restaurants = data.restaurants;
+
+    console.log("Successfully loaded", restaurants.length, "restaurants");
+
+    // Now display the restaurants
+    applyFilters();
+  } catch (error) {
+    console.error("Error loading restaurants:", error);
+
+    // If JSON file fails, use backup data
+    restaurants = [
       {
-        id: 100,
-        name: "3 Pieces Chicken Meal",
-        description: "3 pieces chicken + fries + drink",
-        price: 3500,
-        image: "img/crispy/3piece.jpg",
+        id: 1,
+        name: "KFC Calabar",
+        description: "Finger lickin' good!",
+        image: "images/restaurants/kfc-logo.jpg",
+        fallback: "🍗",
+        deliveryTime: "25-35min",
+        rating: "4.5",
+        featured: true,
+        category: "fastfood",
+        cuisine: "American",
       },
       {
-        id: 101,
-        name: "Zinger Burger Meal",
-        description: "Zinger burger + fries + drink",
-        price: 3200,
-        image: "images/restaurants/kfc-burger.jpg",
+        id: 2,
+        name: "Domino's Pizza",
+        description: "Pizza delivery experts",
+        image: "images/restaurants/dominos-logo.jpg",
+        fallback: "🍕",
+        deliveryTime: "30-40min",
+        rating: "4.7",
+        popular: true,
+        category: "international",
+        cuisine: "Italian",
       },
-      {
-        id: 102,
-        name: "Chicken Bucket (8 pcs)",
-        description: "8 pieces of original recipe chicken",
-        price: 8500,
-        image: "images/restaurants/kfc-bucket.jpg",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Domino's Pizza",
-    description: "Pizza delivery experts",
-    image: "img/dominos.jpg",
-    fallback: "🍕",
-    deliveryTime: "35-40min",
-    rating: "4.5",
-    popular: true,
-    category: "fastfood",
-    cuisine: "American",
-    menu: [
-      {
-        id: 200,
-        name: "Medium Pepperoni Pizza",
-        description: "12-inch pepperoni pizza",
-        price: 5500,
-        image: "img/dominos/mediumpeperoni.jpg",
-      },
-      {
-        id: 201,
-        name: "Large Supreme Pizza",
-        description: "14-inch supreme pizza",
-        price: 7500,
-        image: "images/restaurants/dominos-supreme.jpg",
-      },
-      {
-        id: 202,
-        name: "Garlic Bread",
-        description: "8 pieces garlic bread",
-        price: 1800,
-        image: "img/dominos/dominos-garlic-bread.jpg",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Chicken Republic",
-    description: "Simply irresistible!",
-    image: "img/chickenrepublic.jpg",
-    fallback: "🍗",
-    deliveryTime: "25-35min",
-    rating: "4.5",
-    popular: true,
-    category: "fastfood",
-    menu: [
-      {
-        id: 300,
-        name: "Quarter Chicken Meal",
-        description: "Quarter chicken + jollof rice + drink",
-        price: 2800,
-        image: "img/chickenrepublic/cr-chicken.jpg",
-      },
-      {
-        id: 301,
-        name: "Spicy Chicken Burger",
-        description: "Spicy chicken burger + fries",
-        price: 2200,
-        image: "img/chickenrepublic/cr-burger.jpg",
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "Crunchies Fried Chicken",
-    description: "Taste the difference",
-    image: "img/crunchies.jpg",
-    fallback: "🍔",
-    deliveryTime: "25-35min",
-    rating: "4.5",
-    featured: true,
-    category: "fastfood",
-    menu: [
-      {
-        id: 400,
-        name: "Bigga Burger Meal",
-        description: "Bigga burger + fries + drink",
-        price: 2500,
-        image: "images/restaurants/biggs-burger.jpg",
-      },
-      {
-        id: 401,
-        name: "Meat Pie Combo",
-        description: "2 meat pies + drink",
-        price: 1500,
-        image: "images/restaurants/biggs-pie.jpg",
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "Alyce Ice Cream & Snacks",
-    description: "Delight in every bite",
-    image: "img/alyce.jpg",
-    fallback: "🍔",
-    deliveryTime: "25-35min",
-    rating: "4.5",
-    featured: true,
-    category: "desserts",
-    menu: [
-      {
-        id: 500,
-        name: "Bigga Burger Meal",
-        description: "Bigga burger + fries + drink",
-        price: 2500,
-        image: "images/restaurants/biggs-burger.jpg",
-      },
-      {
-        id: 501,
-        name: "Meat Pie Combo",
-        description: "2 meat pies + drink",
-        price: 1500,
-        image: "images/restaurants/biggs-pie.jpg",
-      },
-    ],
-  },
-  {
-    id: 6,
-    name: "8tte's Chops & Grills",
-    description: "Finest of chops & grills",
-    image: "img/8tte.jpg",
-    fallback: "🍔",
-    deliveryTime: "25-35min",
-    rating: "4.5",
-    popular: true,
-    category: "deserts",
-    menu: [
-      {
-        id: 600,
-        name: "Sam & Puff Pack",
-        description: "8 piece samosa + 8 piece puff-puff",
-        price: 2500,
-        image: "images/restaurants/biggs-burger.jpg",
-      },
-      {
-        id: 601,
-        name: "Meat Pie Combo",
-        description: "2 meat pies + drink",
-        price: 1500,
-        image: "images/restaurants/biggs-pie.jpg",
-      },
-    ],
-  },
-  {
-    id: 7,
-    name: "The Mirage Calabar",
-    description: "A taste of authentic local cuisine",
-    image: "img/mirage.jpg",
-    fallback: "🍛",
-    deliveryTime: "30-45min",
-    rating: "4.7",
-    featured: true,
-    category: "local",
-    cuisine: "Nigerian",
-    menu: [
-      {
-        id: 700,
-        name: "Afang Soup & Semo",
-        description: "Fresh afang soup with assorted meat and semolina",
-        price: 3200,
-        image: "img/mirage/afang-semo.jpg",
-      },
-      {
-        id: 701,
-        name: "Fisherman Soup Deluxe",
-        description:
-          "Spicy fisherman soup with fish, prawns, and periwinkles. Served with eba.",
-        price: 4500,
-        image: "img/mirage/fisherman-soup.jpg",
-      },
-      {
-        id: 702,
-        name: "Jollof Rice with Fried Plantain and Chicken",
-        description:
-          "Classic Nigerian jollof rice, dodo, and a quarter chicken",
-        price: 3800,
-        image: "img/mirage/jollof-chicken.jpg",
-      },
-    ],
-  },
-  {
-    id: 8,
-    name: "P-Chris Restaurant",
-    description: "Exquisite Home-made flavors",
-    image: "img/pchris.jpg",
-    fallback: "🥙",
-    deliveryTime: "40-50min",
-    rating: "4.6",
-    popular: true,
-    category: "grill",
-    cuisine: "Turkish",
-    menu: [
-      {
-        id: 800,
-        name: "Mixed Grill Platter",
-        description:
-          "A platter of lamb chops, chicken shish, and kofte. Serves 2.",
-        price: 12500,
-        image: "img/turkish/mixed-grill.jpg",
-      },
-      {
-        id: 801,
-        name: "Chicken Shawarma Plate",
-        description: "Deconstructed shawarma with chicken, rice, and salad",
-        price: 4800,
-        image: "img/turkish/shawarma-plate.jpg",
-      },
-      {
-        id: 802,
-        name: "Baklava",
-        description: "4 pieces of sweet, flaky pastry with nuts",
-        price: 2500,
-        image: "img/turkish/baklava.jpg",
-      },
-    ],
-  },
-  {
-    id: 9,
-    name: "Chinese Golden Dragon",
-    description: "Authentic Chinese cuisine",
-    image: "img/chinese.jpg",
-    fallback: "🍜",
-    deliveryTime: "35-45min",
-    rating: "4.4",
-    featured: true,
-    category: "asian",
-    cuisine: "Chinese",
-    menu: [
-      {
-        id: 900,
-        name: "Chicken Fried Rice",
-        description: "Stir-fried rice with chicken, vegetables, and egg",
-        price: 4200,
-        image: "img/chinese/chicken-fried-rice.jpg",
-      },
-      {
-        id: 901,
-        name: "Sweet and Sour Chicken",
-        description: "Crispy chicken in a tangy sweet and sour sauce",
-        price: 5200,
-        image: "img/chinese/sweet-sour-chicken.jpg",
-      },
-      {
-        id: 902,
-        name: "Beef Chow Mein",
-        description: "Stir-fried noodles with beef and fresh vegetables",
-        price: 4800,
-        image: "img/chinese/beef-chowmein.jpg",
-      },
-    ],
-  },
-  {
-    id: 10,
-    name: "De Office Pub Kitchen",
-    description: "Your everyday meal, served right",
-    image: "img/officepub.jpg",
-    fallback: "🍔",
-    deliveryTime: "20-30min",
-    rating: "4.3",
-    popular: true,
-    category: "fastfood",
-    cuisine: "Nigerian",
-    menu: [
-      {
-        id: 1000,
-        name: "Beef Burger Meal",
-        description: "Beef burger + fries + a can of soda",
-        price: 2200,
-        image: "img/tantalizers/beef-burger-meal.jpg",
-      },
-      {
-        id: 1001,
-        name: "Chicken Pie Snack",
-        description: "Freshly baked chicken pie",
-        price: 700,
-        image: "img/tantalizers/chicken-pie.jpg",
-      },
-      {
-        id: 1002,
-        name: "Jollof Rice with Chicken",
-        description: "A portion of jollof rice and a piece of fried chicken",
-        price: 2800,
-        image: "img/tantalizers/jollof-chicken.jpg",
-      },
-    ],
-  },
-];
+    ];
+
+    applyFilters();
+    alert("Using backup restaurant data. Check console for details.");
+  }
+}
 
 let cart = [];
 let currentRestaurant = null;
@@ -338,7 +76,7 @@ let selectedDeliveryArea = null;
 // Initialize the app
 document.addEventListener("DOMContentLoaded", function () {
   loadCartFromStorage();
-  loadRestaurants();
+  loadRestaurantsFromJSON();
   updateCartCount();
   updateCartDisplay();
 });
@@ -514,7 +252,7 @@ function displayFilteredRestaurants(filteredRestaurants) {
                     <span class="rating">⭐ ${restaurant.rating}</span>
                 </div>
                 <div class="cuisine-badge">${restaurant.cuisine}</div>
-                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Quick Menu</button>
+                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Menu</button>
             </div>
         `;
     restaurantsList.appendChild(restaurantCard);
@@ -584,7 +322,7 @@ function showMenu(restaurantId) {
   const menuModal = document.createElement("div");
   menuModal.className = "menu-modal";
   menuModal.innerHTML = `
-        <div class="menu-header">
+        <div class="menu-header" style="width: 100%; justify-content: center;">
             <h3>${currentRestaurant.name} Menu</h3>
             <button onclick="closeMenu()">×</button>
         </div>
