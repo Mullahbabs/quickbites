@@ -35,6 +35,7 @@
         }
       ]
     },
+
     {
       "id": 2,
       "name": "Domino's Pizza & Cold Stone",
@@ -70,6 +71,7 @@
         }
       ]
     },
+
     {
       "id": 3,
       "name": "Chicken Republic",
@@ -98,6 +100,7 @@
         }
       ]
     },
+
     {
       "id": 4,
       "name": "Crunchies Fried Chicken",
@@ -126,6 +129,7 @@
         }
       ]
     },
+
     {
       "id": 5,
       "name": "Alyce Ice Cream & Snacks",
@@ -154,6 +158,7 @@
         }
       ]
     },
+
     {
       "id": 6,
       "name": "8tte's Chops & Grills",
@@ -182,6 +187,7 @@
         }
       ]
     },
+
     {
       "id": 7,
       "name": "The Mirage Calabar",
@@ -217,6 +223,7 @@
         }
       ]
     },
+
     {
       "id": 8,
       "name": "P-Chris Restaurant",
@@ -252,6 +259,7 @@
         }
       ]
     },
+
     {
       "id": 9,
       "name": "Chinese Golden Dragon",
@@ -287,6 +295,7 @@
         }
       ]
     },
+
     {
       "id": 10,
       "name": "De Office Pub Kitchen",
@@ -321,6 +330,607 @@
           "image": "img/tantalizers/jollof-chicken.jpg"
         }
       ]
+    },
+
+    {
+      "id": 11,
+      "name": "Calabar Wakkis Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 12,
+      "name": "Apples Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 13,
+      "name": "Arizz Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 14,
+      "name": "Bennie’s Luncheon Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 15,
+      "name": "Bite 'N' Smile",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 16,
+      "name": "Bluezeal Hotel & Fast Food",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 17,
+      "name": "Buddyz Place",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 18,
+      "name": "Chef Zhanga Foods",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 19,
+      "name": "City Restaurant Calabar",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 20,
+      "name": "E3 Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 21,
+      "name": "Fresh Green Cafeteria",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 22,
+      "name": "Grace Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 23,
+      "name": "Home Affairs",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 24,
+      "name": "Iyima’s Place",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 25,
+      "name": "Jolicks Catering & Events",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 26,
+      "name": "Mama Cass Eating Spot",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 27,
+      "name": "Mama Chioma Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 28,
+      "name": "Mama G Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 29,
+      "name": "Mustard Seed Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 30,
+      "name": "Native Delicacies Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 31,
+      "name": "Nelly’s Bar & Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 32,
+      "name": "SeanAndre Place",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 33,
+      "name": "Sparkling Celebration",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 34,
+      "name": "Stella and Tracy Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 35,
+      "name": "The Fusion",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 36,
+      "name": "Crunchies",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 37,
+      "name": "Amber Tinapa",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 38,
+      "name": "Aqua Vista Farms & Resort",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 39,
+      "name": "Channel View Karaoke Bar",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 40,
+      "name": "Channel View Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 41,
+      "name": "Crunchies Frost Chicken Ltd",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 42,
+      "name": "De Park Nigeria Enterprises",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 43,
+      "name": "EME INN",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 44,
+      "name": "Freddy’s Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 45,
+      "name": "Tata Fish",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 46,
+      "name": "Brainy CV Lounge Restaurant & Bar",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 47,
+      "name": "Amy Patisserie",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 48,
+      "name": "Golden Apple Restaurant & Bar",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 49,
+      "name": "MacBite Food Ltd",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 50,
+      "name": "Aroma Restaurant",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 51,
+      "name": "Happy Food Chinese Restaurant & Bakery",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 52,
+      "name": "Boxd Food Nigeria",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 53,
+      "name": "Boleroes Grills & Chops",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 54,
+      "name": "CreamieLand IceCream Palace",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 55,
+      "name": "De'Coko Bar",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 56,
+      "name": "Izzy Treats",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 57,
+      "name": "Manjaro Juicery",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 58,
+      "name": "Entisin Classic Food",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 59,
+      "name": "Big Munch Gardens",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
+    },
+    {
+      "id": 60,
+      "name": "Backhouse Lounge",
+      "description": "",
+      "image": "",
+      "fallback": "🍽️",
+      "deliveryTime": "",
+      "rating": "",
+      "category": "",
+      "cuisine": "",
+      "menu": []
     }
   ]
 }

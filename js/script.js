@@ -90,7 +90,7 @@ async function loadRestaurantsFromJSON() {
     ];
 
     applyFilters();
-    alert("Using backup restaurant data. Check console for details.");
+    alert("Using backup restaurant data.");
   }
 }
 
@@ -117,7 +117,6 @@ function initializeEmailJS() {
   }
 }
 
-// Local Storage Functions
 function saveCartToStorage() {
   try {
     localStorage.setItem("calabarQuickBiteCart", JSON.stringify(cart));
@@ -226,31 +225,91 @@ function initializeFilters() {
   }
 }
 
+// Function to check if restaurant matches search criteria (including menu items)
+function restaurantMatchesSearch(restaurant, searchTerm) {
+  if (!searchTerm) return true;
+
+  // Check restaurant properties first (fast check)
+  if (
+    restaurant.name.toLowerCase().includes(searchTerm) ||
+    restaurant.description.toLowerCase().includes(searchTerm) ||
+    restaurant.cuisine.toLowerCase().includes(searchTerm)
+  ) {
+    return true;
+  }
+
+  // Check menu items if restaurant has a menu
+  if (restaurant.menu && Array.isArray(restaurant.menu)) {
+    const menuMatch = restaurant.menu.some(
+      (menuItem) =>
+        menuItem.name.toLowerCase().includes(searchTerm) ||
+        menuItem.description.toLowerCase().includes(searchTerm)
+    );
+    if (menuMatch) return true;
+  }
+
+  return false;
+}
+
 // Apply both category filter and search filter
 function applyFilters() {
-  const filteredRestaurants = restaurants.filter((restaurant) => {
-    // Apply category filter
-    const categoryMatch =
-      currentFilter === "all" || restaurant.category === currentFilter;
+  let filteredRestaurants = [];
+  let matchedMenuItems = [];
 
-    // Apply search filter
-    const searchMatch =
-      !currentSearch ||
-      restaurant.name.toLowerCase().includes(currentSearch) ||
-      restaurant.description.toLowerCase().includes(currentSearch) ||
-      restaurant.cuisine.toLowerCase().includes(currentSearch);
+  // If there's a search term, we need to check for menu items
+  if (currentSearch) {
+    // First, check for menu item matches
+    restaurants.forEach((restaurant) => {
+      // Apply category filter
+      const categoryMatch =
+        currentFilter === "all" || restaurant.category === currentFilter;
 
-    return categoryMatch && searchMatch;
-  });
+      if (categoryMatch && restaurant.menu && Array.isArray(restaurant.menu)) {
+        const matchingMenuItems = restaurant.menu.filter(
+          (menuItem) =>
+            menuItem.name.toLowerCase().includes(currentSearch) ||
+            menuItem.description.toLowerCase().includes(currentSearch)
+        );
 
-  // Display filtered restaurants
+        if (matchingMenuItems.length > 0) {
+          // Store the restaurant with its matching menu items
+          filteredRestaurants.push({
+            ...restaurant,
+            matchingMenuItems: matchingMenuItems,
+            isMenuSearchResult: true,
+          });
+        }
+      }
+    });
+
+    // If no menu items found, fall back to regular restaurant search
+    if (filteredRestaurants.length === 0) {
+      filteredRestaurants = restaurants.filter((restaurant) => {
+        // Apply category filter
+        const categoryMatch =
+          currentFilter === "all" || restaurant.category === currentFilter;
+
+        // Apply search filter
+        const searchMatch = restaurantMatchesSearch(restaurant, currentSearch);
+
+        return categoryMatch && searchMatch;
+      });
+    }
+  } else {
+    // No search term, just apply category filter
+    filteredRestaurants = restaurants.filter((restaurant) => {
+      return currentFilter === "all" || restaurant.category === currentFilter;
+    });
+  }
+
+  // Display filtered results
   displayFilteredRestaurants(filteredRestaurants);
 
   // Update results count
-  updateResultsCount(filteredRestaurants.length);
+  updateResultsCount(filteredRestaurants.length, currentSearch);
 }
 
-// Display filtered restaurants
+// Display filtered restaurants with menu items if applicable
 function displayFilteredRestaurants(filteredRestaurants) {
   const restaurantsList = document.getElementById("restaurantsList");
 
@@ -258,7 +317,7 @@ function displayFilteredRestaurants(filteredRestaurants) {
     restaurantsList.innerHTML = `
             <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
                 <div style="font-size: 4rem; margin-bottom: 1rem;">🍕</div>
-                <h3 style="color: #666; margin-bottom: 0.5rem;">No restaurants found</h3>
+                <h3 style="color: #666; margin-bottom: 0.5rem;">No results found</h3>
                 <p style="color: #888;">Try adjusting your search or filter criteria</p>
                 <button onclick="clearFilters()" style="margin-top: 1rem; padding: 0.8rem 1.5rem; background: #ee5a24; color: white; border: none; border-radius: 25px; cursor: pointer;">
                     Clear Filters
@@ -275,6 +334,42 @@ function displayFilteredRestaurants(filteredRestaurants) {
     restaurantCard.className = `restaurant-card ${
       restaurant.featured ? "featured" : ""
     } ${restaurant.popular ? "popular" : ""}`;
+
+    let menuItemsHTML = "";
+
+    // If this is a menu search result, show matching menu items
+    if (restaurant.isMenuSearchResult && restaurant.matchingMenuItems) {
+      menuItemsHTML = `
+        <div class="menu-search-results" style="margin-top: 10px; padding: 10px; background: rgba(238, 90, 36, 0.1); border-radius: 8px;">
+          <div style="font-size: 12px; color: #ee5a24; margin-bottom: 5px; font-weight: bold;">
+            🍽️ Matching Menu Items:
+          </div>
+          ${restaurant.matchingMenuItems
+            .map(
+              (item) => `
+            <div class="matching-menu-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px; margin: 5px 0; background: white; border-radius: 6px; border: 1px solid #eee;">
+              <div style="flex: 1;">
+                <div style="font-weight: bold; font-size: 13px;">${
+                  item.name
+                }</div>
+                <div style="font-size: 11px; color: #666; margin-top: 2px;">${
+                  item.description
+                }</div>
+              </div>
+              <div style="font-weight: bold; color: #ee5a24; font-size: 14px; margin-left: 10px;">
+                ₦${item.price.toLocaleString()}
+              </div>
+            </div>
+          `
+            )
+            .join("")}
+          <div style="text-align: center; margin-top: 8px;">
+            
+          </div>
+        </div>
+      `;
+    }
+
     restaurantCard.innerHTML = `
             <div class="restaurant-thumbnail">
                 <img src="${restaurant.image}" alt="${restaurant.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -288,15 +383,16 @@ function displayFilteredRestaurants(filteredRestaurants) {
                     <span class="rating">⭐ ${restaurant.rating}</span>
                 </div>
                 <div class="cuisine-badge">${restaurant.cuisine}</div>
-                <button class="menu-btn" onclick="showMenu(${restaurant.id})">Menu</button>
+                ${menuItemsHTML}
+                <button class="menu-btn" onclick="showMenu(${restaurant.id})">View Menu</button>
             </div>
         `;
     restaurantsList.appendChild(restaurantCard);
   });
 }
 
-// Update results count
-function updateResultsCount(count) {
+// Update results count with search context
+function updateResultsCount(count, searchTerm = "") {
   let resultsCountElement = document.getElementById("resultsCount");
 
   if (!resultsCountElement) {
@@ -312,7 +408,15 @@ function updateResultsCount(count) {
       );
   }
 
-  resultsCountElement.textContent = `Showing ${count} of ${restaurants.length} restaurants`;
+  let message = `Showing ${count} of ${restaurants.length} restaurants`;
+
+  if (searchTerm) {
+    message = `Found ${count} result${
+      count !== 1 ? "s" : ""
+    } for "${searchTerm}"`;
+  }
+
+  resultsCountElement.textContent = message;
 }
 
 // Clear all filters
@@ -336,6 +440,62 @@ function clearFilters() {
 
   // Apply filters (which will show all restaurants)
   applyFilters();
+}
+
+// Update the showMenu function to highlight searched items if applicable
+function showMenu(restaurantId, highlightSearchTerm = null) {
+  currentRestaurant = restaurants.find((r) => r.id === restaurantId);
+
+  // Use search term from currentSearch if no highlight term provided
+  const highlightTerm = highlightSearchTerm || currentSearch;
+
+  const menuModal = document.createElement("div");
+  menuModal.className = "menu-modal";
+
+  let menuContent = currentRestaurant.menu
+    .map((item) => {
+      // Highlight matching menu items if there's a search term
+      const isMatchingItem =
+        highlightTerm &&
+        (item.name.toLowerCase().includes(highlightTerm) ||
+          item.description.toLowerCase().includes(highlightTerm));
+
+      const highlightStyle = isMatchingItem
+        ? "border: 2px solid #ee5a24; background-color: #fff3e0;"
+        : "";
+
+      return `
+      <div class="menu-item" style="${highlightStyle}">
+        <div class="item-image">
+            <img src="${
+              item.image || "images/restaurants/default-food.jpg"
+            }" alt="${item.name}" onerror="this.style.display='none'">
+        </div>
+        <div class="item-info">
+            <h4>${item.name}${isMatchingItem ? " 🔍" : ""}</h4>
+            <p>${item.description}</p>
+            <span class="item-price">₦${item.price.toLocaleString()}</span>
+        </div>
+        <button class="add-to-cart" onclick="addToCart(${
+          item.id
+        })">Add to Cart</button>
+      </div>
+    `;
+    })
+    .join("");
+
+  menuModal.innerHTML = `
+    <div class="menu-header" style="width: 100%; justify-content: center;">
+        <h3>${currentRestaurant.name} Menu</h3>
+        <button onclick="closeMenu()">×</button>
+    </div>
+    <div class="menu-items">
+        ${menuContent}
+    </div>
+  `;
+
+  document.body.appendChild(menuModal);
+  showOverlay();
 }
 
 // Update the loadRestaurants function to use filters
@@ -481,7 +641,7 @@ function updateCartDisplay() {
     : 0;
   const total = subtotal + deliveryFee + SERVICE_FEE;
 
-  cartTotal.textContent = total.toLocaleString();
+  cartTotal.innerHTML = total.toLocaleString();
 }
 
 function updateQuantity(itemId, change) {
@@ -576,7 +736,7 @@ function updateOrderSummary(subtotal, deliveryFee, total) {
             <span>Delivery Fee ${
               selectedDeliveryArea
                 ? `(${getDeliveryAreaName(selectedDeliveryArea)})`
-                : "(Included in next screen)"
+                : ""
             }</span>
             <span>₦${deliveryFee.toLocaleString()}</span>
         </div>
@@ -701,21 +861,25 @@ function generateOrderNumber() {
   return `CQB${timestamp}${random}`;
 }
 
-// Function to format order items for email
 function formatOrderItemsForEmail(cart) {
   return cart
     .map(
       (item) => `
-        <div class="order-item">
-            <div>
-                <strong>${item.quantity}x ${item.name}</strong>
+      <div class="order-item">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #e0e0e0; gap: 15px;">
+            <div style="flex: 1;">
+                <strong style="color: #333; font-size: 14px; display: block; margin-bottom: 4px;">${
+                  item.quantity
+                }x ${item.name}</strong>
                 ${
                   item.restaurant
-                    ? `<br><small>Restaurant: ${item.restaurant}</small>`
+                    ? `<br><small style="color: #666; font-size: 12px; font-style: italic;">Restaurant: ${item.restaurant}</small>`
                     : ""
                 }
             </div>
-            <div>₦${(item.price * item.quantity).toLocaleString()}</div>
+            <div style="font-weight: 600; color: #ee5a24; white-space: nowrap; font-size: 14px; min-width: 80px; text-align: right;">
+                ₦${(item.price * item.quantity).toLocaleString()}
+            </div>
         </div>
     `
     )
