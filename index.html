@@ -33,7 +33,7 @@
     <script type="text/javascript">
     // Initialize EmailJS with your Public Key
     (function() {
-        emailjs.init("FO2RWy5Ovnsvs1Qvk"); 
+        emailjs.init("FO2RWy5Ovnsvs1Qvk");
     })();
     </script>
   </head>
@@ -41,13 +41,15 @@
     <!-- Header -->
     <header>
       <div class="container">
-        <h2>🍔 Calabar QuickBite</h2>
+        <div class="logo-container">
+          <div class="logo">
+            <img src="img/cqb.png">
         <p>Delivering Happiness One Meal At A Time!</p>
       </div>
     </header>
-    
 
-    
+
+
 
 
     <!-- Location & Search -->
@@ -70,7 +72,7 @@
         <div class="nexusflow-carousel">
             <div class="nexusflow-progress"></div>
             <div class="floating-elements" id="floatingElements"></div>
-            
+
             <div class="nexusflow-slides">
                 <div class="nexusflow-slide slide-1 active">
                     <div class="slide-content">
@@ -79,7 +81,7 @@
                         <button class="slide-btn">Order in 2 Minutes</button>
                     </div>
                 </div>
-                
+
                 <div class="nexusflow-slide slide-2">
                     <div class="slide-content">
                       <h2>Simple & Secure Ordering</h2>
@@ -87,7 +89,7 @@
                       <a href="chickenrepublic.html" class="slide-btn">How It Works</a>
                     </div>
                 </div>
-                
+
                 <div class="nexusflow-slide slide-3">
                     <div class="slide-content">
                       <h2>50+ Restaurant Partners</h2>
@@ -96,25 +98,25 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="nexusflow-controls">
                 <button class="nexusflow-prev">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                
+
                 <div class="nexusflow-indicators">
                     <div class="nexusflow-indicator active" data-slide="0"></div>
                     <div class="nexusflow-indicator" data-slide="1"></div>
                     <div class="nexusflow-indicator" data-slide="2"></div>
                 </div>
-                
+
                 <button class="nexusflow-next">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
-        
-        <p style="margin: 2rem; background: 
+
+        <p style="margin: 2rem; background:
         linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3); font-size: 1.3rem; color:#fff; padding: 1rem; border-radius: 10px;">
         Browse restaurants, Order your meal, Make a Transfer, Satisfy That craving!
       </p>
@@ -214,7 +216,7 @@
           </div>
         </div>
       </div>
-    </section>  
+    </section>
 
 
     <!-- Restaurants -->
@@ -278,9 +280,9 @@
         <!-- Restaurants Grid -->
         <div class="restaurants-grid" id="restaurantsList">
           <!-- Restaurants will be loaded here by JavaScript -->
-        </div> 
+        </div>
       </div>
-      
+
     </section>
 
      <!-- Delivery Areas Showcase -->
@@ -766,18 +768,18 @@
             const prevBtn = document.querySelector('.nexusflow-prev');
             const nextBtn = document.querySelector('.nexusflow-next');
             const progressBar = document.querySelector('.nexusflow-progress');
-            
+
             // Carousel state
             let currentSlide = 0;
             let slideInterval;
             const slideDuration = 5000; // 5 seconds per slide
-            
+
             // Create floating elements
             createFloatingElements();
-            
+
             // Initialize carousel
             startSlideShow();
-            
+
             // Navigation functions
             function goToSlide(n) {
                 // Remove active classes
@@ -787,106 +789,106 @@
                 indicators.forEach(indicator => {
                     indicator.classList.remove('active');
                 });
-                
+
                 // Update current slide
                 currentSlide = (n + slides.length) % slides.length;
-                
+
                 // Add active classes
                 slides[currentSlide].classList.add('active');
                 indicators[currentSlide].classList.add('active');
-                
+
                 // Add directional classes for animation
                 const prevSlide = (currentSlide - 1 + slides.length) % slides.length;
                 const nextSlide = (currentSlide + 1) % slides.length;
-                
+
                 slides[prevSlide].classList.add('prev');
                 slides[nextSlide].classList.add('next');
-                
+
                 // Reset progress bar
                 resetProgressBar();
             }
-            
+
             function nextSlide() {
                 goToSlide(currentSlide + 1);
             }
-            
+
             function prevSlide() {
                 goToSlide(currentSlide - 1);
             }
-            
+
             function startSlideShow() {
                 slideInterval = setInterval(nextSlide, slideDuration);
                 resetProgressBar();
             }
-            
+
             function resetSlideShow() {
                 clearInterval(slideInterval);
                 startSlideShow();
             }
-            
+
             function resetProgressBar() {
                 progressBar.style.width = '0%';
                 progressBar.style.transition = 'width 0.1s linear';
-                
+
                 setTimeout(() => {
                     progressBar.style.transition = `width ${slideDuration}ms linear`;
                     progressBar.style.width = '100%';
                 }, 50);
             }
-            
+
             // Event listeners
             prevBtn.addEventListener('click', () => {
                 prevSlide();
                 resetSlideShow();
             });
-            
+
             nextBtn.addEventListener('click', () => {
                 nextSlide();
                 resetSlideShow();
             });
-            
+
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', () => {
                     goToSlide(index);
                     resetSlideShow();
                 });
             });
-            
+
             // Create floating elements for background
             function createFloatingElements() {
                 const container = document.getElementById('floatingElements');
                 const elementsCount = 15;
-                
+
                 for (let i = 0; i < elementsCount; i++) {
                     const element = document.createElement('div');
                     element.classList.add('floating-element');
-                    
+
                     // Random properties
                     const size = Math.random() * 30 + 10;
                     const left = Math.random() * 100;
                     const animationDelay = Math.random() * 15;
                     const animationDuration = Math.random() * 10 + 15;
-                    
+
                     element.style.width = `${size}px`;
                     element.style.height = `${size}px`;
                     element.style.left = `${left}%`;
                     element.style.animationDelay = `${animationDelay}s`;
                     element.style.animationDuration = `${animationDuration}s`;
-                    
+
                     container.appendChild(element);
                 }
             }
-            
+
             // Pause on hover
             carousel.addEventListener('mouseenter', () => {
                 clearInterval(slideInterval);
                 progressBar.style.transition = 'none';
             });
-            
+
             carousel.addEventListener('mouseleave', () => {
                 resetSlideShow();
             });
-            
+
             // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') {

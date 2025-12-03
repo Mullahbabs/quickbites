@@ -694,7 +694,7 @@ function showCheckout() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const deliveryFee = 0; // Start with 0 until area selected
+  const deliveryFee = 0; 
   const total = subtotal + deliveryFee + SERVICE_FEE;
 
   // Populate order summary with fee breakdown
