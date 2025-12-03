@@ -190,9 +190,9 @@
 
     {
       "id": 7,
-      "name": "The Mirage Calabar",
+      "name": "The Hot Plate Calabar",
       "description": "A taste of authentic local cuisine",
-      "image": "img/mirage.jpg",
+      "image": "img/hotplate.png",
       "fallback": "🍛",
       "deliveryTime": "30-45min",
       "rating": "4.7",
