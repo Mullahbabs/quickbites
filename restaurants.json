@@ -328,6 +328,13 @@
           "description": "A portion of jollof rice and a piece of fried chicken",
           "price": 2800,
           "image": "img/tantalizers/jollof-chicken.jpg"
+        },
+        {
+          "id": 1003,
+          "name": "Moi-moi Special",
+          "description": "Beans moi-moi with egg and fish filling",
+          "price": 1200,
+          "image": "img/moimoit.png"
         }
       ]
     },
