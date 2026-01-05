@@ -166,8 +166,8 @@ function loadRestaurants() {
     restaurantCard.innerHTML = `
             <div class="restaurant-thumbnail">
                 <img src="${restaurant.image}" alt="${
-      restaurant.name
-    }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  restaurant.name
+                }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="fallback" style="display: none;">${
                   restaurant.fallback
                 }</div>
@@ -243,7 +243,7 @@ function restaurantMatchesSearch(restaurant, searchTerm) {
     const menuMatch = restaurant.menu.some(
       (menuItem) =>
         menuItem.name.toLowerCase().includes(searchTerm) ||
-        menuItem.description.toLowerCase().includes(searchTerm)
+        menuItem.description.toLowerCase().includes(searchTerm),
     );
     if (menuMatch) return true;
   }
@@ -268,7 +268,7 @@ function applyFilters() {
         const matchingMenuItems = restaurant.menu.filter(
           (menuItem) =>
             menuItem.name.toLowerCase().includes(currentSearch) ||
-            menuItem.description.toLowerCase().includes(currentSearch)
+            menuItem.description.toLowerCase().includes(currentSearch),
         );
 
         if (matchingMenuItems.length > 0) {
@@ -360,11 +360,11 @@ function displayFilteredRestaurants(filteredRestaurants) {
                 ₦${item.price.toLocaleString()}
               </div>
             </div>
-          `
+          `,
             )
             .join("")}
           <div style="text-align: center; margin-top: 8px;">
-            
+
           </div>
         </div>
       `;
@@ -404,7 +404,7 @@ function updateResultsCount(count, searchTerm = "") {
       .querySelector(".restaurants-section .container")
       .insertBefore(
         resultsCountElement,
-        document.getElementById("restaurantsList")
+        document.getElementById("restaurantsList"),
       );
   }
 
@@ -532,8 +532,8 @@ function showMenu(restaurantId) {
                         <img src="${
                           item.image || "images/restaurants/default-food.jpg"
                         }" alt="${
-                  item.name
-                }" onerror="this.style.display='none'">
+                          item.name
+                        }" onerror="this.style.display='none'">
                     </div>
                     <div class="item-info">
                         <h4>${item.name}</h4>
@@ -544,7 +544,7 @@ function showMenu(restaurantId) {
                       item.id
                     })">Add to Cart</button>
                 </div>
-            `
+            `,
               )
               .join("")}
         </div>
@@ -618,8 +618,8 @@ function updateCartDisplay() {
                 <h4>${item.name}</h4>
                 <p>${item.restaurant}</p>
                 <p class="item-price">₦${item.price.toLocaleString()} × ${
-      item.quantity
-    } = ₦${itemTotal.toLocaleString()}</p>
+                  item.quantity
+                } = ₦${itemTotal.toLocaleString()}</p>
             </div>
             <div class="cart-item-controls">
                 <button class="quantity-btn" onclick="updateQuantity(${
@@ -692,9 +692,9 @@ function showCheckout() {
   // Calculate initial fees (without delivery fee until area selected)
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
-  const deliveryFee = 0; 
+  const deliveryFee = 0;
   const total = subtotal + deliveryFee + SERVICE_FEE;
 
   // Populate order summary with fee breakdown
@@ -725,7 +725,7 @@ function updateOrderSummary(subtotal, deliveryFee, total) {
                 <span>${item.quantity}x ${item.name}</span>
                 <span>₦${(item.price * item.quantity).toLocaleString()}</span>
             </div>
-        `
+        `,
           )
           .join("")}
         <div class="fee-item">
@@ -758,7 +758,7 @@ function setDeliveryArea(area) {
   // Recalculate fees with the selected delivery area
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const deliveryFee = DELIVERY_FEES[selectedDeliveryArea];
   const total = subtotal + deliveryFee + SERVICE_FEE;
@@ -773,8 +773,8 @@ function setDeliveryArea(area) {
 
   showNotification(
     `Delivery area set to ${getDeliveryAreaName(
-      area
-    )} - ₦${deliveryFee.toLocaleString()}`
+      area,
+    )} - ₦${deliveryFee.toLocaleString()}`,
   );
 }
 
@@ -807,7 +807,7 @@ function showBankDetails() {
 
   if (!customerName || !customerAddress || !customerPhone) {
     alert(
-      "Please fill in all required fields: Name, Address, and Phone Number."
+      "Please fill in all required fields: Name, Address, and Phone Number.",
     );
     return;
   }
@@ -827,7 +827,7 @@ function showBankDetails() {
 
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const deliveryFee = DELIVERY_FEES[selectedDeliveryArea];
   const total = subtotal + deliveryFee + SERVICE_FEE;
@@ -881,7 +881,7 @@ function formatOrderItemsForEmail(cart) {
                 ₦${(item.price * item.quantity).toLocaleString()}
             </div>
         </div>
-    `
+    `,
     )
     .join("");
 }
@@ -928,7 +928,7 @@ async function sendOrderEmail(orderData) {
     const response = await emailjs.send(
       EMAILJS_CONFIG.SERVICE_ID,
       EMAILJS_CONFIG.TEMPLATE_ID,
-      templateParams
+      templateParams,
     );
 
     console.log("Email sent successfully:", response);
@@ -978,7 +978,7 @@ async function submitOrder() {
   // Calculate final total
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const deliveryFee = DELIVERY_FEES[selectedDeliveryArea] || 0;
   const total = subtotal + deliveryFee + SERVICE_FEE;
@@ -1024,7 +1024,7 @@ async function submitOrder() {
         (item) =>
           `${item.quantity}x ${item.name} - ₦${(
             item.price * item.quantity
-          ).toLocaleString()}`
+          ).toLocaleString()}`,
       )
       .join("\n");
 
@@ -1054,7 +1054,7 @@ async function submitOrder() {
               item.price * item.quantity
             ).toLocaleString()}</span>
         </div>
-    `
+    `,
       )
       .join("");
 
@@ -1077,7 +1077,7 @@ async function submitOrder() {
     console.error("Order submission error:", error);
     alert(
       "There was an issue submitting your order. Please try again or contact support. Error: " +
-        error.message
+        error.message,
     );
   } finally {
     // Reset button state
@@ -1161,7 +1161,7 @@ function hideOverlay() {
   // Only hide overlay if no modals are open
   const modals = document.querySelectorAll(".modal");
   const isAnyModalOpen = Array.from(modals).some(
-    (modal) => modal.style.display === "block"
+    (modal) => modal.style.display === "block",
   );
 
   if (!isAnyModalOpen) {
