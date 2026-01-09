@@ -12,6 +12,18 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@800;900&display=swap"
       rel="stylesheet"
     />
+    <!-- Add to head section -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      // Initialize EmailJS with your Public Key
+      (function () {
+        emailjs.init("Syl6_Q_1-IlMBpDug");
+      })();
+    </script>
+
     <style>
       * {
         margin: 0;
@@ -587,79 +599,6 @@
       </div>
     </div>
 
-    <script>
-      function selectCity(city) {
-        if (city === "Calabar") {
-          // Redirect to Calabar restaurants page
-          window.location.href = "calabar.html";
-          // Or show loading animation
-          showLoadingAnimation(city);
-        } else if (city === "Uyo") {
-          // Show coming soon message for Uyo
-          alert(
-            "🚧 Uyo service coming soon! We're expanding to serve you better."
-          );
-          // Optional: Collect email for Uyo launch notification
-          const email = prompt(
-            "Enter your email to get notified when we launch in Uyo:"
-          );
-          if (email) {
-            alert(
-              "Thank you! We'll notify you when QuickBites launches in Uyo."
-            );
-          }
-        }
-      }
-
-      function showLoadingAnimation(city) {
-        const buttons = document.querySelectorAll(".city-btn");
-        buttons.forEach((btn) => {
-          btn.disabled = true;
-          if (btn.classList.contains("calabar") && city === "Calabar") {
-            btn.innerHTML = `
-                        <div class="city-icon">⏳</div>
-                        <div>LOADING CALABAR...</div>
-                        <div class="subtext">Preparing your food journey</div>
-                    `;
-          }
-        });
-
-        // loading and redirect
-        setTimeout(() => {
-          window.location.href = "calabar.html";
-        }, 1500);
-      }
-
-      // interactive effects
-      document.addEventListener("DOMContentLoaded", function () {
-        //  hover sound effect
-        const buttons = document.querySelectorAll(".city-btn");
-        buttons.forEach((button) => {
-          button.addEventListener("mouseenter", function () {
-            this.style.transform = "scale(1.05)";
-          });
-
-          button.addEventListener("mouseleave", function () {
-            this.style.transform = "scale(1)";
-          });
-        });
-
-        // Add parallax effect to floating elements
-        window.addEventListener("mousemove", function (e) {
-          const floatingElements =
-            document.querySelectorAll(".floating-element");
-          const x = e.clientX / window.innerWidth;
-          const y = e.clientY / window.innerHeight;
-
-          floatingElements.forEach((el, index) => {
-            const speed = 0.5 + index * 0.1;
-            const xMovement = (x - 0.5) * 20 * speed;
-            const yMovement = (y - 0.5) * 20 * speed;
-
-            el.style.transform = `translate(${xMovement}px, ${yMovement}px)`;
-          });
-        });
-      });
-    </script>
+    <script src="js/email.js"></script>
   </body>
 </html>
