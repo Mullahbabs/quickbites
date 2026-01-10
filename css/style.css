@@ -1939,7 +1939,7 @@ button {
 /* Floating Decision Maker Button */
 .decision-maker-btn {
   position: fixed;
-  bottom: 30px;
+  bottom: 90px;
   right: 30px;
   width: 70px;
   height: 70px;
@@ -2224,7 +2224,7 @@ button {
 /* Responsive */
 @media (max-width: 768px) {
   .decision-maker-btn {
-    bottom: 20px;
+    bottom: 90px;
     right: 20px;
     width: 60px;
     height: 60px;
