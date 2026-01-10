@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calabar QuickBite - Food Delivery</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -494,6 +495,124 @@
       </div>
     </footer>
 
+     <!-- Floating Decision Maker Button -->
+    <div class="decision-maker-btn" id="decisionMakerBtn">
+        <i class="fas fa-random"></i>
+    </div>
+
+    <!-- Decision Maker Modal -->
+    <div class="decision-modal" id="decisionModal">
+        <div class="decision-content">
+            <button class="close-btn" id="closeDecisionModal">×</button>
+            
+            <!-- Step 1: Input Options -->
+            <div class="decision-step active" id="step1">
+                <h2 style="color: white; margin-bottom: 1rem;">🎯 What are your options?</h2>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                    Enter two food options you're deciding between
+                </p>
+                
+                <div class="option-inputs">
+                    <div class="option-input">
+                        <input type="text" id="option1" placeholder="🍔 First option (e.g., Burger)">
+                    </div>
+                    <div class="option-input">
+                        <input type="text" id="option2" placeholder="🍕 Second option (e.g., Pizza)">
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn secondary" id="skipOptions">I'm feeling lucky</button>
+                    <button class="nav-btn primary" id="nextStep1">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Select Factors -->
+            <div class="decision-step" id="step2">
+                <h2 style="color: white; margin-bottom: 1rem;">🌡️ Consider these factors</h2>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                    Your choices will help us make a smarter decision
+                </p>
+                
+                <h3 style="color: #ee5a24; margin: 20px 0 10px;">🍽️ Meal Type</h3>
+                <div class="factors-grid">
+                    <div class="factor-option" data-factor="breakfast">🌅 Breakfast</div>
+                    <div class="factor-option" data-factor="lunch">☀️ Lunch</div>
+                    <div class="factor-option" data-factor="dinner">🌙 Dinner</div>
+                    <div class="factor-option" data-factor="snack">🍪 Snack</div>
+                </div>
+                
+                <h3 style="color: #ee5a24; margin: 20px 0 10px;">🌤️ Weather Preference</h3>
+                <div class="factors-grid">
+                    <div class="factor-option" data-factor="hot">🔥 Hot Weather Food</div>
+                    <div class="factor-option" data-factor="cold">❄️ Cold Weather Food</div>
+                    <div class="factor-option" data-factor="rainy">🌧️ Rainy Day Food</div>
+                    <div class="factor-option" data-factor="any">🌈 Any Weather</div>
+                </div>
+                
+                <h3 style="color: #ee5a24; margin: 20px 0 10px;">📍 Current Location</h3>
+                <div class="factors-grid">
+                    <div class="factor-option" data-factor="home">🏠 At Home</div>
+                    <div class="factor-option" data-factor="office">🏢 At Office</div>
+                    <div class="factor-option" data-factor="outdoors">🌳 Outdoors</div>
+                    <div class="factor-option" data-factor="travel">🚗 Traveling</div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn secondary" id="prevStep2">Back</button>
+                    <button class="nav-btn primary" id="nextStep2">Make Decision!</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Spinner -->
+            <div class="decision-step" id="step3">
+                <h2 style="color: white; margin-bottom: 1rem;">🎲 Making your decision...</h2>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                    Analyzing your preferences and food options
+                </p>
+                
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <div class="spinner-text">
+                        Considering: <span id="consideringFactor">Meal Type</span>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn secondary" id="cancelDecision">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Result -->
+            <div class="decision-step" id="step4">
+                <h2 style="color: white; margin-bottom: 1rem;">🎉 Decision Made!</h2>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                    Based on your factors, we recommend:
+                </p>
+                
+                <div class="result-display" id="resultDisplay">
+                    <h3 id="selectedOption">🍔 Burger</h3>
+                    <p id="decisionReason">Perfect for your current situation!</p>
+                    <div id="usedFactors">
+                        <span class="result-factor">🌅 Breakfast</span>
+                        <span class="result-factor">🏠 At Home</span>
+                    </div>
+                </div>
+                
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin: 20px 0;">
+                    <i class="fas fa-lightbulb"></i> Pro tip: This decision considered your preferences to give you the best match!
+                </p>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn secondary" id="restartDecision">Decide Again</button>
+                    <button class="nav-btn primary" id="orderNowBtn">
+                        <i class="fas fa-shopping-cart"></i> Order This Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Cart -->
     <div class="cart-icon" onclick="toggleCart()">
       🛒 <span id="cartCount">0</span>
@@ -917,5 +1036,6 @@ s0.parentNode.insertBefore(s1,s0);
 
     <script src="js/script.js"></script>
     <script src="restaurants.json"></script>
+    <script src="js/decision.js"></script>
   </body>
 </html>
