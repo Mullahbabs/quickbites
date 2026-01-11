@@ -2,7 +2,6 @@
 const decisionMaker = {
   // Food preferences database
   foodPreferences: {
-    // Meal Type Preferences
     breakfast: [
       "pancakes",
       "waffles",
@@ -17,48 +16,47 @@ const decisionMaker = {
       "sandwich",
       "salad",
       "soup",
-      "wrap",
+      "shawarma",
       "burger",
       "pasta",
       "rice",
       "noodles",
     ],
     dinner: [
-      "steak",
+      "beans",
       "chicken",
       "fish",
       "pizza",
       "curry",
       "stir-fry",
-      "roast",
-      "casserole",
+      "Bole and fish",
+      "moi-moi",
     ],
     snack: [
       "chips",
-      "fruit",
+      "fruits",
       "nuts",
       "cookies",
       "chocolate",
       "yogurt",
       "popcorn",
-      "granola",
+      "Parfeit",
     ],
 
-    // Weather Preferences
     hot: [
       "salad",
       "smoothie",
       "ice cream",
-      "cold sandwich",
+      "sandwich",
       "fruit salad",
-      "gazpacho",
-      "ceviche",
+      "parfeit",
+      "yogurt",
     ],
     cold: [
       "soup",
       "stew",
       "hot chocolate",
-      "roast",
+      "curry soup",
       "casserole",
       "porridge",
       "tea",
@@ -66,72 +64,67 @@ const decisionMaker = {
     ],
     rainy: [
       "soup",
-      "grilled cheese",
-      "mac and cheese",
+      "grilled fish",
+      "mac and sauce",
       "hot chocolate",
       "comfort food",
     ],
     any: ["anything", "surprise me", "chef special"],
 
-    // Location Preferences
     home: ["home cooked", "comfort food", "family style", "experimental"],
-    office: ["quick", "neat", "portable", "sandwich", "wrap", "salad"],
-    outdoors: ["portable", "finger food", "picnic", "bbq", "grilled"],
-    traveling: ["fast food", "snacks", "energy bars", "road trip food"],
+    office: ["quick", "neat", "portable", "sandwich", "shawarma", "salad"],
+    outdoors: ["portable", "finger food", "pasta", "bbq", "grilled"],
+    indoors: ["fast food", "snacks", "energy bars", "hot food"],
   },
 
-  // Decision factors
   selectedFactors: {
     mealType: null,
     weather: null,
     location: null,
   },
 
-  // User options
   userOptions: {
     option1: "",
     option2: "",
   },
 
-  // Initialize
   init() {
     this.bindEvents();
     console.log("Meal Decision Maker initialized");
   },
 
-  // Bind all event listeners
   bindEvents() {
     // Floating button
     document
       .getElementById("decisionMakerBtn")
-      .addEventListener("click", () => {
-        this.openModal();
-      });
+      ?.addEventListener("click", () => this.openModal());
 
     // Close modal
     document
       .getElementById("closeDecisionModal")
-      .addEventListener("click", () => {
-        this.closeModal();
-      });
+      ?.addEventListener("click", () => this.closeModal());
 
-    // Step 1 buttons
-    document.getElementById("nextStep1").addEventListener("click", () => {
-      this.collectOptions();
-      this.goToStep(2);
+    // Step 1 - Next (requires both options)
+    document.getElementById("nextStep1")?.addEventListener("click", () => {
+      if (this.validateOptions()) {
+        this.collectOptions();
+        this.goToStep(2);
+      }
     });
 
-    document.getElementById("skipOptions").addEventListener("click", () => {
+    // Step 1 - I'm Feeling Lucky (skips options input)
+    document.getElementById("skipOptions")?.addEventListener("click", () => {
       this.useRandomOptions();
       this.goToStep(2);
     });
 
-    // Step 2 buttons
-    document.getElementById("prevStep2").addEventListener("click", () => {
-      this.goToStep(1);
-    });
+    // Step 2 - Back
+    document
+      .getElementById("prevStep2")
+      ?.addEventListener("click", () => this.goToStep(1));
 
-    document.getElementById("nextStep2").addEventListener("click", () => {
+    // Step 2 - Next (requires all factors)
+    document.getElementById("nextStep2")?.addEventListener("click", () => {
       if (this.validateFactors()) {
         this.goToStep(3);
         this.startDecisionProcess();
@@ -140,86 +133,108 @@ const decisionMaker = {
 
     // Factor selection
     document.querySelectorAll(".factor-option").forEach((option) => {
-      option.addEventListener("click", (e) => {
-        this.selectFactor(e.target);
+      option.addEventListener("click", (e) =>
+        this.selectFactor(e.currentTarget)
+      );
+    });
+
+    // Step 3 - Cancel
+    document
+      .getElementById("cancelDecision")
+      ?.addEventListener("click", () => this.goToStep(2));
+
+    // Step 4 - Restart
+    document
+      .getElementById("restartDecision")
+      ?.addEventListener("click", () => {
+        this.resetDecision();
+        this.goToStep(1);
       });
-    });
 
-    // Step 3 cancel
-    document.getElementById("cancelDecision").addEventListener("click", () => {
-      this.goToStep(2);
-    });
-
-    // Step 4 buttons
-    document.getElementById("restartDecision").addEventListener("click", () => {
-      this.resetDecision();
-      this.goToStep(1);
-    });
-
-    document.getElementById("orderNowBtn").addEventListener("click", () => {
-      this.orderSelectedFood();
-    });
+    // Step 4 - Order Now
+    document
+      .getElementById("orderNowBtn")
+      ?.addEventListener("click", () => this.orderSelectedFood());
   },
 
-  // Open modal
   openModal() {
-    document.getElementById("decisionModal").classList.add("active");
-    this.resetDecision();
+    const modal = document.getElementById("decisionModal");
+    if (modal) {
+      modal.classList.add("active");
+      this.resetDecision();
+    }
   },
 
-  // Close modal
   closeModal() {
-    document.getElementById("decisionModal").classList.remove("active");
+    const modal = document.getElementById("decisionModal");
+    if (modal) modal.classList.remove("active");
   },
 
-  // Go to specific step
   goToStep(stepNumber) {
-    // Hide all steps
     document.querySelectorAll(".decision-step").forEach((step) => {
       step.classList.remove("active");
     });
 
-    // Show target step
-    document.getElementById(`step${stepNumber}`).classList.add("active");
+    const target = document.getElementById(`step${stepNumber}`);
+    if (target) target.classList.add("active");
   },
 
-  // Collect user options
+  validateOptions() {
+    const option1 = document.getElementById("option1")?.value.trim();
+    const option2 = document.getElementById("option2")?.value.trim();
+    const errorEl = document.getElementById("optionsError");
+
+    if (!option1 || !option2) {
+      if (errorEl) {
+        errorEl.textContent =
+          "Both options are required! Please fill in both fields.";
+        errorEl.style.display = "block";
+      }
+      return false;
+    }
+
+    if (errorEl) errorEl.style.display = "none";
+    return true;
+  },
+
   collectOptions() {
-    const option1 = document.getElementById("option1").value.trim();
-    const option2 = document.getElementById("option2").value.trim();
+    const option1 = document
+      .getElementById("option1")
+      ?.value.trim()
+      .toLowerCase();
+    const option2 = document
+      .getElementById("option2")
+      ?.value.trim()
+      .toLowerCase();
 
     if (option1 && option2) {
-      this.userOptions.option1 = option1.toLowerCase();
-      this.userOptions.option2 = option2.toLowerCase();
-    } else {
-      this.useRandomOptions();
+      this.userOptions.option1 = option1;
+      this.userOptions.option2 = option2;
     }
   },
 
-  // Use random options if user skips
   useRandomOptions() {
     const allOptions = [
       "burger",
       "pizza",
       "pasta",
-      "sushi",
-      "tacos",
+      "shawarma",
+      "ekpang",
       "salad",
       "sandwich",
       "soup",
-      "steak",
+      "bole and fish",
       "chicken",
       "fish",
       "curry",
-      "ramen",
-      "burrito",
+      "indomie",
+      "buns",
       "noodles",
       "rice",
       "stir-fry",
-      "wrap",
+      "beans",
     ];
 
-    // Pick two random options
     const randomIndex1 = Math.floor(Math.random() * allOptions.length);
     let randomIndex2;
     do {
@@ -229,7 +244,7 @@ const decisionMaker = {
     this.userOptions.option1 = allOptions[randomIndex1];
     this.userOptions.option2 = allOptions[randomIndex2];
 
-    // Update input fields
+    // Optional: Show the random choices to user
     document.getElementById("option1").value = this.capitalizeFirstLetter(
       this.userOptions.option1
     );
@@ -238,59 +253,49 @@ const decisionMaker = {
     );
   },
 
-  // Select factor
   selectFactor(element) {
     const factorValue = element.getAttribute("data-factor");
     const category = this.getFactorCategory(factorValue);
 
-    // Remove selected class from all factors in same category
-    const allFactors = document.querySelectorAll(`.factor-option[data-factor]`);
-    allFactors.forEach((factor) => {
-      const factorCat = this.getFactorCategory(
-        factor.getAttribute("data-factor")
-      );
-      if (factorCat === category) {
-        factor.classList.remove("selected");
-      }
-    });
+    if (!category) return;
 
-    // Add selected class to clicked factor
+    // Deselect others in same category
+    document
+      .querySelectorAll(`.factor-option[data-factor]`)
+      .forEach((factor) => {
+        const cat = this.getFactorCategory(factor.getAttribute("data-factor"));
+        if (cat === category) factor.classList.remove("selected");
+      });
+
     element.classList.add("selected");
-
-    // Store selection
     this.selectedFactors[category] = factorValue;
   },
 
-  // Get factor category
-  getFactorCategory(factorValue) {
-    if (["breakfast", "lunch", "dinner", "snack"].includes(factorValue)) {
+  getFactorCategory(value) {
+    if (["breakfast", "lunch", "dinner", "snack"].includes(value))
       return "mealType";
-    } else if (["hot", "cold", "rainy", "any"].includes(factorValue)) {
-      return "weather";
-    } else if (
-      ["home", "office", "outdoors", "traveling"].includes(factorValue)
-    ) {
+    if (["hot", "cold", "rainy", "any"].includes(value)) return "weather";
+    if (["home", "office", "outdoors", "indoors"].includes(value))
       return "location";
-    }
     return null;
   },
 
-  // Validate factors
   validateFactors() {
-    const hasMealType = this.selectedFactors.mealType !== null;
-    const hasWeather = this.selectedFactors.weather !== null;
-    const hasLocation = this.selectedFactors.location !== null;
+    const { mealType, weather, location } = this.selectedFactors;
 
-    if (!hasMealType || !hasWeather || !hasLocation) {
-      alert("Please select one option from each category!");
+    if (!mealType || !weather || !location) {
+      alert(
+        "Please select one option from each category (Meal Type, Weather & Location)!"
+      );
       return false;
     }
     return true;
   },
 
-  // Start decision process with spinner
   startDecisionProcess() {
     const consideringText = document.getElementById("consideringFactor");
+    if (!consideringText) return;
+
     const factors = [
       "Meal Type",
       "Weather",
@@ -299,34 +304,27 @@ const decisionMaker = {
       "Time of Day",
       "Hunger Level",
     ];
-    let factorIndex = 0;
+    let i = 0;
 
-    // Animate considering factors
-    const factorInterval = setInterval(() => {
-      consideringText.textContent = factors[factorIndex];
-      factorIndex = (factorIndex + 1) % factors.length;
+    const interval = setInterval(() => {
+      consideringText.textContent = factors[i];
+      i = (i + 1) % factors.length;
     }, 800);
 
-    // Make decision after 5 seconds
     setTimeout(() => {
-      clearInterval(factorInterval);
+      clearInterval(interval);
       this.makeDecision();
       this.goToStep(4);
     }, 5000);
   },
 
-  // Make the final decision
   makeDecision() {
-    // Get options
-    const option1 = this.userOptions.option1;
-    const option2 = this.userOptions.option2;
+    const { option1, option2 } = this.userOptions;
 
-    // Score each option based on factors
     const score1 = this.calculateScore(option1);
     const score2 = this.calculateScore(option2);
 
-    // Decide based on scores (with some randomness)
-    const randomFactor = Math.random() * 0.3; // Add some randomness
+    const randomFactor = Math.random() * 0.3;
     let selectedOption, reason;
 
     if (score1 + randomFactor > score2) {
@@ -337,110 +335,93 @@ const decisionMaker = {
       reason = this.generateReason(option2, score2, score1);
     }
 
-    // Display result
     this.displayResult(selectedOption, reason);
   },
 
-  // Calculate score for an option
   calculateScore(option) {
     let score = 0;
 
-    // Check meal type preference
-    const mealPrefs = this.foodPreferences[this.selectedFactors.mealType];
+    const checkMatch = (prefs, opt) =>
+      prefs?.some((p) => opt.includes(p) || p.includes(opt)) ?? false;
+
+    // Meal type (highest weight)
     if (
-      mealPrefs &&
-      mealPrefs.some((pref) => option.includes(pref) || pref.includes(option))
+      checkMatch(this.foodPreferences[this.selectedFactors.mealType], option)
     ) {
       score += 3;
     }
 
-    // Check weather preference
-    const weatherPrefs = this.foodPreferences[this.selectedFactors.weather];
+    // Weather
     if (
-      weatherPrefs &&
-      weatherPrefs.some(
-        (pref) => option.includes(pref) || pref.includes(option)
-      )
+      checkMatch(this.foodPreferences[this.selectedFactors.weather], option)
     ) {
       score += 2;
     }
 
-    // Check location preference
-    const locationPrefs = this.foodPreferences[this.selectedFactors.location];
+    // Location
     if (
-      locationPrefs &&
-      locationPrefs.some(
-        (pref) => option.includes(pref) || pref.includes(option)
-      )
+      checkMatch(this.foodPreferences[this.selectedFactors.location], option)
     ) {
       score += 2;
     }
 
-    // Add random factor (0-2 points)
+    // Small random bonus
     score += Math.random() * 2;
 
     return score;
   },
 
-  // Generate reason for selection
-  generateReason(selectedOption, winningScore, losingScore) {
+  generateReason(winner, winScore, loseScore) {
     const reasons = [
-      `Perfect match for ${this.selectedFactors.mealType}!`,
-      `Ideal for ${this.selectedFactors.weather} weather conditions`,
-      `Great for when you're ${this.selectedFactors.location}`,
-      `This scored ${winningScore.toFixed(1)} vs ${losingScore.toFixed(
-        1
-      )} on our food compatibility scale`,
-      `Based on your preferences, this is the clear winner!`,
-      `The algorithm loves this choice for your current situation`,
+      `My perfect match for ${this.selectedFactors.mealType}!`,
+      `Ideal for ${this.selectedFactors.weather} weather`,
+      `Great choice for your current location ${this.selectedFactors.location}`,
+      `Scored ${winScore.toFixed(1)} vs ${loseScore.toFixed(1)}`,
+      `My algorithm strongly recommends this!`,
+      `Listen! This fits your current situation best`,
+      `In love with me yet?`,
+      `I leaned in your direction didn't i?`,
+      `Color me biased, but this is the one! 😂`,
+      `I know right, i eat decision making for breakfast 😎`,
     ];
-
     return reasons[Math.floor(Math.random() * reasons.length)];
   },
 
-  // Display result
-  displayResult(selectedOption, reason) {
-    // Capitalize first letter
-    const displayOption = this.capitalizeFirstLetter(selectedOption);
-
-    // Add emoji based on food type
+  displayResult(option, reason) {
+    const display = this.capitalizeFirstLetter(option);
     let emoji = "🍽️";
-    if (selectedOption.includes("burger")) emoji = "🍔";
-    else if (selectedOption.includes("pizza")) emoji = "🍕";
-    else if (selectedOption.includes("sushi")) emoji = "🍣";
-    else if (selectedOption.includes("taco")) emoji = "🌮";
-    else if (selectedOption.includes("salad")) emoji = "🥗";
-    else if (selectedOption.includes("ice cream")) emoji = "🍨";
-    else if (
-      selectedOption.includes("coffee") ||
-      selectedOption.includes("tea")
-    )
-      emoji = "☕";
 
-    // Update display
+    if (option.includes("burger")) emoji = "🍔";
+    else if (option.includes("pizza")) emoji = "🍕";
+    else if (option.includes("shawarma")) emoji = "🍣";
+    else if (option.includes("pasta") || option.includes("tacos")) emoji = "🌮";
+    else if (option.includes("salad")) emoji = "🥗";
+    else if (option.includes("ice cream")) emoji = "🍨";
+    else if (option.includes("coffee") || option.includes("tea")) emoji = "☕";
+
     document.getElementById(
       "selectedOption"
-    ).textContent = `${emoji} ${displayOption}`;
+    ).textContent = `${emoji} ${display}`;
     document.getElementById("decisionReason").textContent = reason;
 
-    // Show used factors
-    const usedFactors = document.getElementById("usedFactors");
-    usedFactors.innerHTML = `
-                    <span class="result-factor">${this.getFactorEmoji(
-                      this.selectedFactors.mealType
-                    )} ${this.selectedFactors.mealType}</span>
-                    <span class="result-factor">${this.getFactorEmoji(
-                      this.selectedFactors.weather
-                    )} ${this.selectedFactors.weather}</span>
-                    <span class="result-factor">${this.getFactorEmoji(
-                      this.selectedFactors.location
-                    )} ${this.selectedFactors.location}</span>
-                `;
+    const factorsEl = document.getElementById("usedFactors");
+    if (factorsEl) {
+      factorsEl.innerHTML = `
+        <span class="result-factor">${this.getFactorEmoji(
+          this.selectedFactors.mealType
+        )} ${this.selectedFactors.mealType}</span>
+        <span class="result-factor">${this.getFactorEmoji(
+          this.selectedFactors.weather
+        )} ${this.selectedFactors.weather}</span>
+        <span class="result-factor">${this.getFactorEmoji(
+          this.selectedFactors.location
+        )} ${this.selectedFactors.location}</span>
+      `;
+    }
   },
 
-  // Get emoji for factor
   getFactorEmoji(factor) {
-    const emojiMap = {
+    const map = {
       breakfast: "🌅",
       lunch: "☀️",
       dinner: "🌙",
@@ -452,75 +433,60 @@ const decisionMaker = {
       home: "🏠",
       office: "🏢",
       outdoors: "🌳",
-      traveling: "🚗",
+      indoors: "🍣",
     };
-    return emojiMap[factor] || "✅";
+    return map[factor] || "✅";
   },
 
-  // Order selected food
   orderSelectedFood() {
-    const selectedOption =
-      document.getElementById("selectedOption").textContent;
-    alert(`Search ${selectedOption}... from our bogus menu!`);
-    window.location.href = `calabar.html?search=${encodeURIComponent(
-      selectedOption
-    )}`;
-    // In a real implementation, this would search for restaurants offering the selected food
-    this.closeModal();
+    const selected =
+      document.getElementById("selectedOption")?.textContent || "";
+    const cleanFood = selected.replace(/^[🍔🍕🍣🌮🥗🍨☕🍽️]+\s*/, "").trim();
 
-    // You could add:
-    // window.location.href = `restaurants.html?search=${encodeURIComponent(selectedOption)}`;
+    alert(`Searching for ${cleanFood}...`);
+    window.location.href = `calabar.html?search=${encodeURIComponent(
+      cleanFood
+    )}`;
+
+    this.closeModal();
   },
 
-  // Reset decision
   resetDecision() {
-    this.selectedFactors = {
-      mealType: null,
-      weather: null,
-      location: null,
-    };
+    this.selectedFactors = { mealType: null, weather: null, location: null };
+    this.userOptions = { option1: "", option2: "" };
 
-    this.userOptions = {
-      option1: "",
-      option2: "",
-    };
-
-    // Clear inputs
     document.getElementById("option1").value = "";
     document.getElementById("option2").value = "";
 
-    // Clear selections
-    document.querySelectorAll(".factor-option").forEach((option) => {
-      option.classList.remove("selected");
-    });
+    document
+      .querySelectorAll(".factor-option")
+      .forEach((el) => el.classList.remove("selected"));
+
+    const errorEl = document.getElementById("optionsError");
+    if (errorEl) errorEl.style.display = "none";
   },
 
-  // Helper: Capitalize first letter
-  capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   },
 };
 
-// Initialize when DOM is loaded
+// Initialize
 document.addEventListener("DOMContentLoaded", () => {
   decisionMaker.init();
 
-  // Make floating button follow scroll
-  const floatingBtn = document.getElementById("decisionMakerBtn");
-  let lastScrollTop = 0;
+  // Floating button scroll behavior
+  const btn = document.getElementById("decisionMakerBtn");
+  if (!btn) return;
 
+  let lastScroll = 0;
   window.addEventListener("scroll", () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    // Hide button when scrolling down, show when scrolling up
-    if (scrollTop > lastScrollTop && scrollTop > 100) {
-      // Scrolling down
-      floatingBtn.style.transform = "translateY(100px)";
+    const current = window.pageYOffset || document.documentElement.scrollTop;
+    if (current > lastScroll && current > 100) {
+      btn.style.transform = "translateY(100px)";
     } else {
-      // Scrolling up or at top
-      floatingBtn.style.transform = "translateY(0)";
+      btn.style.transform = "translateY(0)";
     }
-
-    lastScrollTop = scrollTop;
+    lastScroll = current;
   });
 });
