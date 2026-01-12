@@ -34,7 +34,7 @@
     <script type="text/javascript">
     // Initialize EmailJS with your Public Key
     (function() {
-        emailjs.init("FO2RWy5Ovnsvs1Qvk");
+        emailjs.init("Syl6_Q_1-IlMBpDug");
     })();
     </script>
   </head>
@@ -764,16 +764,20 @@
           </p>
 
           <div class="account-option">
-            <h3>Option 1: Zenith Bank</h3>
-            <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
-            <p><strong>Account Number:</strong> 2083456719</p>
-          </div>
+    <h3>Option 1: Zenith Bank</h3>
+    <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
+    <p class="copyable" data-value="2083456719" style="cursor: pointer; color: #007bff; user-select: all;">
+        <strong>Account Number:</strong> <span id="acc1">2083456719</span> 📋
+    </p>
+</div>
 
-          <div class="account-option">
-            <h3>Option 2: First Bank</h3>
-            <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
-            <p><strong>Account Number:</strong> 3056782341</p>
-          </div>
+<div class="account-option">
+    <h3>Option 2: First Bank</h3>
+    <p><strong>Account Name:</strong> CALABAR QUICKBITE ENTERPRISES</p>
+    <p class="copyable" data-value="3056782341" style="cursor: pointer; color: #007bff; user-select: all;">
+        <strong>Account Number:</strong> <span id="acc2">3056782341</span> 📋
+    </p>
+</div>
 
           <div class="confirmation-section">
             <label>
@@ -871,7 +875,7 @@
 
           <div class="success-actions">
             <button class="btn-primary" onclick="closeSuccessModal()">
-              Continue Shopping
+              Continue
             </button>
             <div class="order-number">
               Order #<span id="successOrderNumber"></span>
@@ -1036,6 +1040,36 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+
+<script>
+document.querySelectorAll('.copyable').forEach(item => {
+    item.addEventListener('click', function() {
+        const accountNumber = this.getAttribute('data-value');
+        navigator.clipboard.writeText(accountNumber).then(() => {
+            // Show visual feedback
+            const originalText = this.innerHTML;
+            this.innerHTML = '<strong>Account Number:</strong> Copied! ✓';
+            this.style.color = '#28a745';
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.style.color = '#007bff';
+            }, 2000);
+        }).catch(err => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = accountNumber;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            alert('Account number copied: ' + accountNumber);
+        });
+    });
+});
+</script>
 
     <script src="js/script.js"></script>
     <script src="restaurants.json"></script>

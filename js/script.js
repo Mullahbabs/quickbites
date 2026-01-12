@@ -11,7 +11,7 @@ const SERVICE_FEE = 300;
 const EMAILJS_CONFIG = {
   SERVICE_ID: "service_1addu86",
   TEMPLATE_ID: "template_o0c1tt5",
-  PUBLIC_KEY: "FO2RWy5Ovnsvs1Qvk",
+  PUBLIC_KEY: "Syl6_Q_1-IlMBpDug",
 };
 
 // This will store our restaurants
