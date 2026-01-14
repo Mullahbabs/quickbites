@@ -33,13 +33,13 @@
 
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #f5eaea 0%, #2626e2 100%);
-        color: white;
+        background-color: #fff9f2; /* Warm, food-friendly off-white */
+        color: #333333;
         min-height: 100vh;
         overflow-x: hidden;
       }
 
-      /* Floating Elements Container */
+      /* Animated Background Elements */
       .floating-container {
         position: fixed;
         top: 0;
@@ -50,126 +50,105 @@
         z-index: -1;
       }
 
-      /* Floating Elements */
+      /* Simple, Solid Color Blobs */
       .floating-element {
         position: absolute;
         border-radius: 50%;
-        background: radial-gradient(
-          circle,
-          rgba(238, 90, 36, 0.15) 0%,
-          rgba(238, 90, 36, 0) 70%
-        );
-        animation: float 20s infinite linear;
-        color: yellow;
+        background-color: rgba(255, 107, 107, 0.08); /* Soft coral */
+        animation: float 25s infinite ease-in-out;
       }
 
       .floating-element:nth-child(1) {
-        width: 300px;
-        height: 300px;
-        top: 10%;
-        left: 5%;
-        background: radial-gradient(
-          circle,
-          rgba(238, 90, 36, 0.2) 0%,
-          rgba(238, 90, 36, 0) 70%
-        );
-        animation-duration: 25s;
+        width: 350px;
+        height: 350px;
+        top: 5%;
+        left: 3%;
+        background-color: rgba(255, 193, 7, 0.07); /* Soft yellow */
+        animation-duration: 30s;
       }
 
       .floating-element:nth-child(2) {
-        width: 200px;
-        height: 200px;
-        top: 60%;
-        right: 10%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 107, 107, 0.15) 0%,
-          rgba(255, 107, 107, 0) 70%
-        );
-        animation-duration: 18s;
+        width: 250px;
+        height: 250px;
+        top: 65%;
+        right: 8%;
+        background-color: rgba(33, 150, 243, 0.06); /* Soft blue */
+        animation-duration: 22s;
         animation-delay: 2s;
       }
 
       .floating-element:nth-child(3) {
-        width: 150px;
-        height: 150px;
-        bottom: 20%;
-        left: 20%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 193, 7, 0.1) 0%,
-          rgba(255, 193, 7, 0) 70%
-        );
-        animation-duration: 22s;
+        width: 180px;
+        height: 180px;
+        bottom: 15%;
+        left: 15%;
+        background-color: rgba(76, 175, 80, 0.08); /* Soft green */
+        animation-duration: 28s;
         animation-delay: 1s;
       }
 
       .floating-element:nth-child(4) {
-        width: 250px;
-        height: 250px;
-        top: 30%;
-        right: 20%;
-        background: radial-gradient(
-          circle,
-          rgba(33, 150, 243, 0.1) 0%,
-          rgba(33, 150, 243, 0) 70%
-        );
-        animation-duration: 30s;
+        width: 300px;
+        height: 300px;
+        top: 25%;
+        right: 15%;
+        background-color: rgba(238, 90, 36, 0.06); /* Soft orange */
+        animation-duration: 32s;
         animation-delay: 3s;
       }
 
-      /* Animated Delivery Icons */
+      /* Food & Delivery Icons */
       .delivery-icon {
         position: absolute;
-        font-size: 2rem;
-        opacity: 0.8;
-        animation: deliver 15s infinite linear;
+        font-size: 2.2rem;
+        opacity: 0.9;
+        animation: drift 20s infinite linear;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
       }
 
       .delivery-icon:nth-child(5) {
-        top: 15%;
-        right: 5%;
-        color: #ee5a24;
+        top: 12%;
+        right: 6%;
+        color: #ee5a24; /* Vibrant orange */
         animation-delay: 0s;
+        animation-duration: 25s;
       }
 
       .delivery-icon:nth-child(6) {
-        top: 70%;
-        left: 5%;
-        color: #ff6b6b;
-        animation-delay: 5s;
-        animation-duration: 20s;
+        top: 75%;
+        left: 8%;
+        color: #ff6b6b; /* Vibrant coral */
+        animation-delay: 7s;
+        animation-duration: 22s;
       }
 
       .delivery-icon:nth-child(7) {
-        bottom: 10%;
-        right: 25%;
-        color: #ffc107;
-        animation-delay: 10s;
+        bottom: 8%;
+        right: 30%;
+        color: #4caf50; /* Fresh green */
+        animation-delay: 12s;
         animation-duration: 18s;
       }
 
       @keyframes float {
-        0% {
-          transform: translate(0, 0) rotate(0deg);
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
         }
         33% {
-          transform: translate(30px, 50px) rotate(120deg);
+          transform: translate(40px, 60px) scale(1.05);
         }
         66% {
-          transform: translate(-20px, 20px) rotate(240deg);
-        }
-        100% {
-          transform: translate(0, 0) rotate(360deg);
+          transform: translate(-30px, 30px) scale(0.95);
         }
       }
 
-      @keyframes deliver {
+      @keyframes drift {
         0% {
-          transform: translateX(-100vw) translateY(0);
+          transform: translateX(-120vw) rotate(0deg);
         }
         100% {
-          transform: translateX(100vw) translateY(100px);
+          transform: translateX(120vw) rotate(360deg);
         }
       }
 
@@ -177,7 +156,7 @@
       .main-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 2.5rem;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -196,99 +175,102 @@
 
       .logo h1 {
         font-family: "Montserrat", sans-serif;
-        font-size: 4.5rem;
+        font-size: 4.8rem;
         font-weight: 900;
-        background: linear-gradient(90deg, #ee5a24, #969741, #ffc107);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        color: #ee5a24; /* Primary orange */
+        text-shadow: 3px 3px 0px #ffd166, 6px 6px 0px rgba(238, 90, 36, 0.2);
         margin-bottom: 0.5rem;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
       }
 
       .logo .tagline {
-        font-size: 1.2rem;
-        color: rgba(255, 255, 255, 0.8);
-        letter-spacing: 3px;
+        font-size: 1.3rem;
+        color: #666666;
+        letter-spacing: 2px;
         text-transform: uppercase;
-        font-weight: 300;
+        font-weight: 500;
+        background-color: #fff1e6;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        display: inline-block;
       }
 
       /* Hero Section */
       .hero {
-        margin-bottom: 4rem;
-        max-width: 800px;
+        margin-bottom: 4.5rem;
+        max-width: 850px;
       }
 
       .hero h2 {
-        font-size: 3.5rem;
+        font-size: 3.8rem;
         font-weight: 700;
         margin-bottom: 1.5rem;
         line-height: 1.2;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        color: #222222;
       }
 
       .hero h2 .highlight {
-        background: linear-gradient(90deg, #ee5a24, #ff6b6b);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+        color: #ff6b6b; /* Coral accent */
         position: relative;
         display: inline-block;
+        padding: 0 5px;
       }
 
       .hero h2 .highlight::after {
         content: "";
         position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, #ee5a24, #ff6b6b);
-        border-radius: 2px;
+        bottom: -2px;
+        left: 5px;
+        width: calc(100% - 10px);
+        height: 8px;
+        background-color: #ffe082; /* Light yellow underline */
+        z-index: -1;
+        border-radius: 4px;
       }
 
       .hero p {
-        font-size: 1.3rem;
-        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.35rem;
+        color: #555555;
         line-height: 1.8;
         margin-bottom: 2.5rem;
-        font-weight: 300;
+        font-weight: 400;
       }
 
       /* City Buttons */
       .city-selection {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-        margin-bottom: 4rem;
+        gap: 2.5rem;
+        margin-bottom: 5rem;
         width: 100%;
-        max-width: 600px;
+        max-width: 700px;
       }
 
       .city-selection h3 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 1rem;
+        color: #444444;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px dashed #ee5a24;
+        display: inline-block;
       }
 
       .city-buttons {
         display: flex;
-        gap: 2rem;
+        gap: 2.5rem;
         justify-content: center;
         flex-wrap: wrap;
       }
 
       .city-btn {
         flex: 1;
-        min-width: 250px;
-        padding: 2.5rem 2rem;
-        font-size: 1.8rem;
+        min-width: 260px;
+        padding: 2.8rem 2rem;
+        font-size: 1.9rem;
         font-weight: 700;
         border: none;
-        border-radius: 20px;
+        border-radius: 25px;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         position: relative;
@@ -296,105 +278,118 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        gap: 1.2rem;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
       }
 
-      .city-btn::before {
+      .city-btn::after {
         content: "";
         position: absolute;
         top: 0;
-        left: -100%;
+        left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: 0.5s;
+        background: linear-gradient(rgba(255, 255, 255, 0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.4s;
       }
 
-      .city-btn:hover::before {
-        left: 100%;
+      .city-btn:hover::after {
+        opacity: 1;
       }
 
       .city-btn:hover {
-        transform: translateY(-10px) scale(1.05);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        transform: translateY(-12px) scale(1.03);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
       }
 
       .city-btn.calabar {
-        background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);
+        background-color: #ee5a24; /* Solid Orange */
         color: white;
+        border: 3px solid #ff8a65;
       }
 
       .city-btn.uyo {
-        background: linear-gradient(135deg, #2196f3 0%, #21cbf3 100%);
+        background-color: #2196f3; /* Solid Blue */
         color: white;
+        border: 3px solid #64b5f6;
       }
 
       .city-icon {
-        font-size: 3rem;
+        font-size: 3.5rem;
         margin-bottom: 0.5rem;
+        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
       }
 
       .city-btn .subtext {
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: 400;
-        opacity: 0.9;
+        opacity: 0.95;
+        letter-spacing: 0.5px;
       }
 
       /* Features */
       .features {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin-top: 4rem;
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 2.5rem;
+        margin-top: 5rem;
         width: 100%;
       }
 
       .feature-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        border: 2px solid #ffe8d6;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+        text-align: left;
       }
 
       .feature-card:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(238, 90, 36, 0.12);
+        border-color: #ee5a24;
       }
 
       .feature-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
+        font-size: 2.8rem;
+        margin-bottom: 1.5rem;
         color: #ee5a24;
+        background-color: #fff1e6;
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
       }
 
       .feature-card h4 {
-        font-size: 1.3rem;
-        margin-bottom: 0.8rem;
-        color: white;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        color: #222222;
       }
 
       .feature-card p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.95rem;
-        line-height: 1.6;
+        color: #666666;
+        font-size: 1rem;
+        line-height: 1.7;
       }
 
       /* Stats */
       .stats {
         display: flex;
         justify-content: center;
-        gap: 3rem;
-        margin-top: 4rem;
+        gap: 4rem;
+        margin-top: 5rem;
         flex-wrap: wrap;
+        background-color: white;
+        padding: 3rem;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 2px solid #ffe8d6;
       }
 
       .stat-item {
@@ -402,81 +397,104 @@
       }
 
       .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
+        font-size: 3rem;
+        font-weight: 800;
         color: #ee5a24;
         margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 0px #ffe082;
       }
 
       .stat-label {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        color: #666666;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.2px;
+        font-weight: 600;
       }
 
       /* Footer */
       .footer {
-        margin-top: 4rem;
+        margin-top: 5rem;
         text-align: center;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
-        padding: 2rem 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #888888;
+        font-size: 0.95rem;
+        padding: 2.5rem 0;
+        border-top: 2px dashed #ffd166;
         width: 100%;
+        background-color: white;
+        border-radius: 20px 20px 0 0;
       }
 
       /* Responsive Design */
       @media (max-width: 768px) {
         .logo h1 {
-          font-size: 3rem;
+          font-size: 3.5rem;
+          text-shadow: 2px 2px 0px #ffd166, 4px 4px 0px rgba(238, 90, 36, 0.2);
         }
 
         .hero h2 {
-          font-size: 2.5rem;
+          font-size: 2.8rem;
         }
 
         .city-buttons {
           flex-direction: column;
+          gap: 1.5rem;
         }
 
         .city-btn {
           min-width: 100%;
+          padding: 2.5rem 1.8rem;
         }
 
         .features {
           grid-template-columns: 1fr;
-        }
-
-        .stats {
           gap: 2rem;
         }
 
+        .stats {
+          gap: 2.5rem;
+          padding: 2.5rem 1.5rem;
+        }
+
         .stat-number {
-          font-size: 2rem;
+          font-size: 2.5rem;
         }
       }
 
       @media (max-width: 480px) {
         .main-container {
-          padding: 1.5rem;
+          padding: 1.8rem;
         }
 
         .logo h1 {
-          font-size: 2.5rem;
+          font-size: 2.8rem;
+        }
+
+        .logo .tagline {
+          font-size: 1.1rem;
+          letter-spacing: 1px;
         }
 
         .hero h2 {
-          font-size: 2rem;
+          font-size: 2.2rem;
         }
 
         .hero p {
-          font-size: 1.1rem;
+          font-size: 1.15rem;
         }
 
         .city-btn {
+          padding: 2.2rem 1.5rem;
+          font-size: 1.7rem;
+        }
+
+        .feature-card {
           padding: 2rem 1.5rem;
-          font-size: 1.5rem;
+        }
+
+        .floating-element {
+          width: 200px !important;
+          height: 200px !important;
         }
       }
     </style>
