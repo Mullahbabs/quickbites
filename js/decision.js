@@ -443,7 +443,7 @@ const decisionMaker = {
       document.getElementById("selectedOption")?.textContent || "";
     const cleanFood = selected.replace(/^[🍔🍕🍣🌮🥗🍨☕🍽️]+\s*/, "").trim();
 
-    alert(`Searching for ${cleanFood}...`);
+    alert(`Search and you shall find ${cleanFood} in our menu...`);
     window.location.href = `calabar.html?search=${encodeURIComponent(
       cleanFood
     )}`;
