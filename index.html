@@ -497,6 +497,275 @@
           height: 200px !important;
         }
       }
+
+      /* Pop-up Modal Styles */
+      .night-closure-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        animation: modalFadeIn 0.5s ease-out;
+      }
+
+      .night-closure-modal.active {
+        display: flex;
+      }
+
+      .night-closure-content {
+        background: linear-gradient(145deg, #2c3e50 0%, #1a252f 100%);
+        border-radius: 30px;
+        max-width: 550px;
+        height: 100%;
+        width: 100%;
+        padding: 3.5rem;
+        text-align: center;
+        overflow: scroll;
+        position: relative;
+        border: 3px solid #ff6b6b;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(255, 107, 107, 0.1), 0 0 60px rgba(238, 90, 36, 0.3);
+        animation: contentPopUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .night-closure-icon {
+        font-size: 5rem;
+        color: #ffd166;
+        margin-bottom: 1.5rem;
+        animation: moonPulse 3s infinite ease-in-out;
+        filter: drop-shadow(0 0 15px rgba(255, 209, 102, 0.5));
+      }
+
+      .night-closure-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 1rem;
+        letter-spacing: 1px;
+        background: linear-gradient(to right, #ffd166, #ff9e6d);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .night-closure-subtitle {
+        font-size: 1.4rem;
+        color: #e0e0e0;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+        font-weight: 500;
+      }
+
+      .night-closure-message {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 1.8rem;
+        border-radius: 20px;
+        margin-bottom: 2.5rem;
+        border-left: 4px solid #ff6b6b;
+      }
+
+      .night-closure-message p {
+        color: #b0b7c3;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 0.8rem;
+      }
+
+      .night-closure-message p:last-child {
+        margin-bottom: 0;
+        color: #ffd166;
+        font-weight: 600;
+      }
+
+      .night-closure-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);
+        color: white;
+        text-decoration: none;
+        padding: 1.3rem 2.5rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 25px rgba(238, 90, 36, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .night-closure-link:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(238, 90, 36, 0.4);
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      }
+
+      .night-closure-link i {
+        font-size: 1.5rem;
+        animation: arrowBounce 2s infinite;
+      }
+
+      .night-closure-timer {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1.2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 209, 102, 0.2);
+      }
+
+      .night-closure-timer p {
+        color: #ffd166;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      .night-closure-close {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+      }
+
+      .night-closure-close:hover {
+        background: rgba(255, 107, 107, 0.3);
+        transform: rotate(90deg);
+      }
+
+      .night-closure-close:active {
+        transform: scale(0.95) rotate(90deg);
+      }
+
+      .night-closure-footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .night-closure-footer p {
+        color: #8a94a6;
+        font-size: 0.9rem;
+        font-style: italic;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          backdrop-filter: blur(0px);
+        }
+        to {
+          opacity: 1;
+          backdrop-filter: blur(10px);
+        }
+      }
+
+      @keyframes contentPopUp {
+        0% {
+          opacity: 0;
+          transform: translateY(50px) scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes moonPulse {
+        0%,
+        100% {
+          transform: scale(1) rotate(0deg);
+          filter: drop-shadow(0 0 15px rgba(255, 209, 102, 0.5));
+        }
+        50% {
+          transform: scale(1.1) rotate(10deg);
+          filter: drop-shadow(0 0 25px rgba(255, 209, 102, 0.8));
+        }
+      }
+
+      @keyframes arrowBounce {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .night-closure-content {
+          padding: 2.5rem 2rem;
+          max-width: 90%;
+        }
+
+        .night-closure-title {
+          font-size: 2.2rem;
+        }
+
+        .night-closure-subtitle {
+          font-size: 1.2rem;
+        }
+
+        .night-closure-icon {
+          font-size: 4rem;
+        }
+
+        .night-closure-link {
+          padding: 1.1rem 2rem;
+          font-size: 1.1rem;
+        }
+
+        .night-closure-close {
+          top: 15px;
+          right: 15px;
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .night-closure-content {
+          padding: 2rem 1.5rem;
+        }
+
+        .night-closure-title {
+          font-size: 1.8rem;
+        }
+
+        .night-closure-subtitle {
+          font-size: 1.1rem;
+        }
+
+        .night-closure-message {
+          padding: 1.3rem;
+        }
+
+        .night-closure-link {
+          width: 100%;
+          justify-content: center;
+        }
+      }
     </style>
   </head>
   <body>
@@ -616,6 +885,133 @@
         </p>
       </div>
     </div>
+
+    <div id="nightClosureModal" class="night-closure-modal">
+      <div class="night-closure-content">
+        <button class="night-closure-close" aria-label="Close notification">
+          <i>✕</i>
+        </button>
+
+        <div class="night-closure-icon">
+          <i>🌙</i>
+        </div>
+
+        <h2 class="night-closure-title">Good Evening!</h2>
+        <p class="night-closure-subtitle">
+          Our regular service is now closed for the night
+        </p>
+
+        <div class="night-closure-message">
+          <p>We're taking a break to prepare for another delicious day!</p>
+          <p>But don't worry, night cravings are still covered!</p>
+        </div>
+
+        <div class="night-closure-timer">
+          <p>Service resumes tomorrow at 7:00 AM</p>
+        </div>
+
+        <a
+          href="https://www.calabarnightbites.com.ng"
+          target="_blank"
+          class="night-closure-link"
+        >
+          Visit Calabarnightbites.com.ng
+          <i>→</i>
+        </a>
+
+        <div class="night-closure-footer">
+          <p>For late-night deliveries and midnight cravings</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("nightClosureModal");
+        const closeBtn = document.querySelector(".night-closure-close");
+        const modalStorageKey = "nightModalClosed";
+
+        // Check current time and show modal if between 7PM and 7AM
+        function checkAndShowModal() {
+          const now = new Date();
+          const currentHour = now.getHours();
+          const currentMinutes = now.getMinutes();
+
+          // Convert to total minutes for easier comparison
+          const currentTimeInMinutes = currentHour * 60 + currentMinutes;
+          const startTime = 19 * 60; // 7:00 PM
+          const endTime = 7 * 60; // 7:00 AM
+
+          // Check if we're between 7PM and 7AM
+          let shouldShowModal = false;
+
+          if (currentHour >= 19) {
+            // After 7PM (including overnight)
+            shouldShowModal = true;
+          } else if (currentHour < 7) {
+            // Before 7AM
+            shouldShowModal = true;
+          } else if (currentHour === 7 && currentMinutes === 0) {
+            // Exactly 7AM
+            shouldShowModal = false;
+          }
+
+          // Check localStorage for user dismissal
+          const modalClosed = localStorage.getItem(modalStorageKey);
+          const today = new Date().toDateString();
+
+          if (shouldShowModal && modalClosed !== today) {
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+          } else {
+            modal.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        }
+
+        // Close modal function
+        function closeModal() {
+          modal.classList.remove("active");
+          document.body.style.overflow = "";
+          // Store dismissal with today's date
+          localStorage.setItem(modalStorageKey, new Date().toDateString());
+        }
+
+        // Close button event
+        closeBtn.addEventListener("click", closeModal);
+
+        // Close when clicking outside modal
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+
+        // Escape key to close
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && modal.classList.contains("active")) {
+            closeModal();
+          }
+        });
+
+        // Initial check
+        checkAndShowModal();
+
+        // Check every minute to handle time transitions
+        setInterval(checkAndShowModal, 60000);
+
+        // Clear storage at 7:01 AM daily so modal can show again at 7PM
+        function clearDailyStorage() {
+          const now = new Date();
+          if (now.getHours() === 7 && now.getMinutes() === 1) {
+            localStorage.removeItem(modalStorageKey);
+          }
+        }
+
+        // Check every minute for 7:01 AM
+        setInterval(clearDailyStorage, 60000);
+      });
+    </script>
 
     <script src="js/email.js"></script>
   </body>
