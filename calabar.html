@@ -980,7 +980,7 @@
                 });
             });
 
-            // Create floating elements for background
+            // floating elements 
             function createFloatingElements() {
                 const container = document.getElementById('floatingElements');
                 const elementsCount = 15;
@@ -989,7 +989,7 @@
                     const element = document.createElement('div');
                     element.classList.add('floating-element');
 
-                    // Random properties
+                   
                     const size = Math.random() * 30 + 10;
                     const left = Math.random() * 100;
                     const animationDelay = Math.random() * 15;
@@ -1057,7 +1057,7 @@ document.querySelectorAll('.copyable').forEach(item => {
                 this.style.color = '#007bff';
             }, 2000);
         }).catch(err => {
-            // Fallback for older browsers
+            // Fallback 
             const textArea = document.createElement('textarea');
             textArea.value = accountNumber;
             document.body.appendChild(textArea);
